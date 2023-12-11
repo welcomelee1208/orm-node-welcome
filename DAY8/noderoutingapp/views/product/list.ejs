@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <title>상품목록페이지</title>
+</head>
+<body>
+    <h1> 상품목록페이지</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>제품번호</th>
+            <th>제품명</th>
+            <th>가격</th>
+            <th>수량</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <!-- //파라메터 방식으로 url안에 데이터를 넣어 값을 전달하는방식 -->
+            <td><a href="/prouct/detail/1">1</a></td>
+            <!-- 쿼리스트링방식으로 데이터를 전달하는 방식  -->
+            <td><a href="/product/detail?pid=1&pname=lg노트북">lg노트북</a></td>
+            <td><a href="/product/detail/1/lg노트북/6000">6000</a></td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td><a href="/prouct/detail/2">2</a></td>
+            <td>삼성노트북</td>
+            <td>6000</td>
+            <td>4</td>
+        </tr>
+    </tbody>
+    </table>
+
+
+</body>
+</html>

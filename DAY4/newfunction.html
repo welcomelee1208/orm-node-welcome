@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            신규 함수 사용법
+        </title>
+    </head>
+    <body>
+        <h1> 최신 함수 정의 사용법들...</h1>
+
+        <script>
+            //case1: 전통적인 자바스크립트 함수(기능)   정의방식
+            //함수의 사용목적 :코드의 재사용성 제공
+            //function 함수명(입력 파라메터=매개변수){처리로직 구현 return 반환구문}
+            function fnplus(a,b){let c=a+b
+            return c}
+
+            var result= fnplus(1,2)
+            console.log("전통적인 함수 기능 정의 방식",result)
+            // 함수 정의 case2:익명 함수 =함수명 없이  함수 정우ㅏ
+            var plus1 = function(a,b){
+                return a+b
+            }
+            var result1 =plus1(1,5)
+        console.log("익명 함수기능 정의 방식", result1)
+            //함수 정의 case3 화살표 함수(화살표+익명함수) function 예약어 사용안함
+            var plus2 = (a,b)=>{return a+b}
+            console.log("화살표 함수를 출력해 보자",plus2(10,20))
+
+            //함수 정의 case4 화살표 함수의 return 구문 까지도 없애보자
+            //중괄호, return 구문 생략가능
+            var plus3 = (a,b)=>(a+b)
+            console.log("화살표 함수를 출력해보자2",plus3(100,200))
+            
+        </script>
+    </body>
+</html>
