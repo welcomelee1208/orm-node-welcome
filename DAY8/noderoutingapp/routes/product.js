@@ -48,6 +48,22 @@ router.get("/detail/:pid/:pname/:price",async(req,res)=>{
 })
 
 
+router.get('/detail/sandall',async(req,res)=>{
+    //문자열을 전달해보자
+    //res.send("안녕하세요")
+    //json 데이터를 전송해보자
+    //res.send({uid:"welcome",username:"이환영"})
+    // var htmlTag =`
+    // <html>
+    //     <body>
+    //         <h1>샘플</h1>
+    //     </body>
+    // </html>`
+    //서버에 저장된 파일을 다운로드 해보자
+    //console.log("__dirname 물리적경로 확인하기:",__dirname+"maple.png")
+    res.sendFile(__dirname+"/maple.png");
+})
+
 
 
 module.exports = router;
