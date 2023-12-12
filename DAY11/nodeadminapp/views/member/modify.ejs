@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사용자 정보 수정</title>
+    <title>사용자 정보 수정 페이지</title>
 </head>
 <body>
-    <h1> 사용자 정보 수정페이지 입니다.</h1>
+    <h1>채팅방 수정 페이지 입니다.</h1>
+    <form action="/member/modify" method="post">
+        제목:<input type="text" name="userId" /> <br/>
+        내용:<input type="text" name="userPassword" /> <br/>
+        
+        <input type="submit" value="저장" />
+
     <a href="/member/list">목록 이동</a>
+    <a href="/member/delete">게시글 삭제</a>
+    
 </body>
 </html>

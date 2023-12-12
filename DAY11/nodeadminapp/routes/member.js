@@ -12,7 +12,13 @@ router.get('/create',async(req,res)=>{
 
 
 router.post('/create',async(req,res)=>{
-    res.redirect('member/list')
+    let userId = req.body.userId
+    let userPassword= req.body.userPassword
+    var member={
+        userId,
+        userPassword,
+    }
+    res.redirect('/member/list')
 })
 
 
@@ -22,12 +28,18 @@ router.get('/modify',async(req,res)=>{
 
 
 router.post('/modify',async(req,res)=>{
-    res.redirect('member/list')
+    let userId = req.body.userId
+    let userPassword= req.body.userPassword
+    var member={
+        userId,
+        userPassword,
+    }
+    res.redirect('/member/list')
 })
 
 
 router.get('/delete',async(req,res)=>{
-    res.redirect('member/list')
+    res.redirect('/member/list')
 })
 
 

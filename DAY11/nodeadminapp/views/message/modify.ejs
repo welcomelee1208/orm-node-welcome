@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>채팅메시지 이력 수정 페이지</title>
+    <title>채팅방 내용 수정 페이지</title>
 </head>
 <body>
-    <h1>채팅메시지 이력 수정 페이지 입니다</h1>
+    <h1>채팅방 내용 수정 페이지 입니다.</h1>
+    <form action="/message/modify" method="post">
+        제목:<input type="text" name="userId" /> <br/>
+        내용:<input type="text" name="userPassword" /> <br/>
+        
+        <input type="submit" value="저장" />
+
     <a href="/message/list">목록 이동</a>
+    <a href="/message/delete">게시글 삭제</a>
+  
 </body>
 </html>

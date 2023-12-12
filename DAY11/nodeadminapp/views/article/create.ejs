@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 작성</title>
+    <title>게시물 신규 작성 페이지</title>
 </head>
 <body>
-    <h1>게시글 작성 페이지 입니다.</h1>
+    <h1>게시물 작성 페이지입니다.</h1>
+    <form action="/article/create" method="post">
+        제목:<input type="text" name="userId" /> <br/>
+        내용:<input type="password" name="userPassword" /> <br/>
+        
+        <input type="submit" value="저장" />
+
     <a href="/article/list">목록 이동</a>
 </body>
 </html>

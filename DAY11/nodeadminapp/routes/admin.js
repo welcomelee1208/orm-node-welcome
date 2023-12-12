@@ -14,7 +14,13 @@ router.get('/create',async(req,res)=>{
 }),
 //목록페이지 이동처리
 router.post('/create',async(req,res)=>{
-    res.redirect('admin/list')
+    let userId = req.body.userId
+    let userPassword= req.body.userPassword
+    var member={
+        userId,
+        userPassword,
+    }
+    res.redirect('/admin/list')
     
 })
 
@@ -26,12 +32,19 @@ router.get('/modify',async(req,res)=>{
 
 
 router.post('/modify',async(req,res)=>{
-    res.redirect('admin/list')
+    let userId = req.body.userId
+    let userPassword= req.body.userPassword
+    var member={
+        userId,
+        userPassword,
+    
+    }
+    res.redirect('/admin/list')
 })
 
 
 router.get('/delete',async(req,res)=>{
-    res.redirect('admin/list')
+    res.redirect('/admin/list')
 })
 
 

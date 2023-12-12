@@ -15,6 +15,12 @@ router.get('/create',async(req,res)=>{
 
 
 router.post('/create',async(req,res)=>{
+    let userId = req.body.userId
+    let userPassword= req.body.userPassword
+    var member={
+        userId,
+        userPassword,
+    }
     res.redirect('channel/list')
 })
 
@@ -25,13 +31,19 @@ router.get('/modify',async(req,res)=>{
 
 
 router.post('/modify',async(req,res)=>{
-    res.redirect('channel/modify')
+    let userId = req.body.userId
+    let userPassword= req.body.userPassword
+    var member={
+        userId,
+        userPassword,
+    }
+    res.redirect('/channel/modify')
     
 })
 
 
 router.get('/delete',async(req,res)=>{
-    res.redirect()
+    res.redirect('/channel/list')
 })
 
 

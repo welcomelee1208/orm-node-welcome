@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자정보 수정</title>
+    <title>관리자 수정 페이지</title>
 </head>
 <body>
-    <h1> 관리자 정보 수정</h1>
+    <h1>관리자 수정페이지입니다.</h1>
+    <form action="/admin/modify" method="post">
+        아이디:<input type="text" name="userId" /> <br/>
+        비밀번호:<input type="password" name="userPassword" /> <br/>
+        
+        <input type="submit" value="저장" />
+
     <a href="/admin/list">목록 이동</a>
+    <a href="/admin/delete">관리자 삭제</a>
+  
 </body>
 </html>

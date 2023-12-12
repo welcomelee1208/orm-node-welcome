@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>채팅메시지 이력 생성 페이지</title>
+    <title>채팅내역생성</title>
 </head>
 <body>
-    <h1>채팅메시지 이력 생성 페이지 입니다.</h1>
+    <h1>채팅내역 생성 페이지입니다.</h1>
+    <form action="/message/create" method="post">
+        제목:<input type="text" name="userId" /> <br/>
+        내용:<input type="password" name="userPassword" /> <br/>
+        
+        <input type="submit" value="저장" />
+
     <a href="/message/list">목록 이동</a>
 </body>
 </html>
