@@ -111,31 +111,30 @@
                 <!-- 게시글 조회 옵션 입력 영역  -->
                 <form action="/article/list" method="post" id="searchForm">
                     <div class="ibox-content m-b-sm border-bottom">
-                        
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label" for="OrderNo">게시판</label>
                                     <select name="boardTypeCode" id="boardTypeCode" class="form-control">
-                                        <option value="0" <% if( searchOption.boardTypeCode == "0"){ %> selected <% } %>>전체 </option>
-                                        <option value="1" <% if( searchOption.boardTypeCode == "1"){ %> selected <% } %>> 공지게시판 </option>
-                                        <option value="2" <% if( searchOption.boardTypeCode == "2"){ %> selected <% } %>>기술블로깅 </option>
+                                        <option value="0">전체 </option>
+                                        <option value="1"> 공지게시판 </option>
+                                        <option value="2">기술블로깅 </option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label" for="OrderName">제목</label>
-                                    <input type="text" name="title" value="<%searchOption.title%>" class="form-control">
+                                    <input type="text" name="title" value="" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label" for="MobileNo">게시여부</label>
                                     <select name="isDisplayCode" class="form-control">
-                                        <option value="9"<% if( searchOption.isDisplayCode == "9"){ %> selected <% } %>>전체</option>
-                                        <option value="1"<% if( searchOption.isDisplayCode == "1"){ %> selected <% } %>>게시함</option>
-                                        <option value="0"<% if( searchOption.isDisplayCode == "0"){ %> selected <% } %>>게시안함</option>
+                                        <option value="9">전체</option>
+                                        <option value="1">게시함</option>
+                                        <option value="0">게시안함</option>
                                     </select>
                                 </div>
                             </div>
@@ -168,36 +167,7 @@
                                             </tr>
                                         </thead>
                                         
-                                        <tbody class="hoverTblBody">
-
-
-                                            <% for(var i =0;i<articles.length;i++){ %>
-                                               
-                                                <tr>
-                                                    <td><%=articles[i].article_id%></td>
-                                                    
-                                                    <td>
-                                            <% if(articles[i].board_type_code == 1){%>공지게시판<% }%>
-                                                    </td>
-                                                    
-                                                    <td><a href="/article/modify/<%=articles[i].article_id%>"><%=articles[i].title%></a></td>
-                                                    <td><%=articles[i].view_count%></td>
-                                                    <td><%=articles[i].ip_address%></td>
-                                                    
-                                                    <td>
-                                                        <% if(articles[i].is_display_code == 1){%>
-                                                            게시함
-                                                        <% } else{ %>
-                                                            게시안함
-                                                        <% }%>
-                                                    </td>
-                                                    
-                                                    
-                                                    <td><%=articles[i].reg_date%></td>
-                                                </tr>
-
-                                           <% } %>
-                                           
+                                        <tbody class="hoverTblBody" id="list">
 
                                         </tbody>
                                     </table>
@@ -240,29 +210,42 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-
+<!-- Jquery Ajax 기반으로 프론트엔드 기능 구현하는 프론트엔드 개발영역 -->
     <script>
+        //list.html 웹 페이지가 서버에서 브라우저로 완전 렌더링 완료된 시점에서
+        //백엔드 rest API 서비스를 통해 전체 게시글 목록 순수 데이터를 조회해 온다.
+        $(document).ready(function(){
+        //step1:벡엔드 RESTfulAPI 서비스에서 전체 게시글 목록 데이터를 조회해 온다.
+        //Jquery ajax get 메소드를 통해 겟방식으로 레스트풀에이피아이 라우팅 메소드을 호출한다.
 
-        //조회폼 입력 유효성 검사 
-        $("#searchForm").submit(function(){
+            $.get('http://localhost:3000/api/article/all',function(result){
+                console.log("벡엔드에서 전달된 조회 결과 확인:",result)
+                
+                $.each(result.data,function(i,item){
+                    console.log("배열내 단일데이터 출력",item)
+                    var trTag =`
+                <tr>
+                <td>${item.article_id}</td>
+                <td>${item.board_type_code}</td>
+                <td><a href="/article/modify/${item.title}>">${item.title}</a></td>
+                <td>${item.contents}</td>
+                <td>${item.ip_adress}</td>
+                <td>${item.is_display_code}</td>
+                <td>${item.reg_date}</td>
+                </tr>
+                `
+                    $("#list").append(trTag)
+                })
+            
+            })
+        })
 
-            // if($("#boardTypeCode").val() == "0"){
-            //     alert("게시판 유형을 선택해주세요.");
-            //     $("#boardTypeCode").focus();
-            //     return false;
-            // }
-
-            return true;
-        });
-
- 
 
 
 
 
-   </script>
 
-
+    </script>
 </body>
 
 </html>
