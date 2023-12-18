@@ -196,7 +196,9 @@ router.get('/:aid',async(req,res)=>{
                 view_count:10,
                 ip_adress:"111.111.123.44",
                 is_display_code:1,
-                reg_date:"2023-12-14"
+                article_type_code:1,
+                reg_date:"2023-12-14",
+                reg_member_id:"welcoem"
                 }
             // step3" 정상 조회된 정보를 apiresult객체 바인딩함
             apiResult.code = 200

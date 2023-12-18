@@ -530,3 +530,21 @@ initial-scale=1.0
 </body>닫는 태그 바로 위에 작성을 한다. 
 
 왜 why? 위에서부터 코드를 읽어가는데 웹페이지가다 로드되고 기능을 작동시키는게 원리에 맞아서입니다.
+웹프로그래밍= HTML웹페이지내용을 조작하는것
+ㄴ 벡엔드 웹프로드래밍: html 조작을 서버에서 백엔드기술(node.js->view.ejs)로 조작
+ㄴ 프런트엔드 웹 프로그래밍:html조작을 웹브라우저에서 프론트엔드 기술(바닐라.js,jquery,각종 현대적인 frontendframework(react/vue/Angular,next.js) 로 조작
+html웹페이지=> 서버에서 보내주는html,css,client javascript 가 모두포함된 웹페이지
+
+
+설계패턴
+MVC설계패턴: 서버에서 사용하는 사요자 요청(웹페이지,데이터)과 응답처리패턴
+ㄴ (JAVA,PYTHON,PHP,C#,NODE)
+ㅁClient-Frontend 기반 UI  SW(APPLICATION)=WEB,MOBILEAPP.WINDOW설치형,MAC설치형,설계패턴
+1) MVP 패턴= 옛날 5-10년전 에는 모두 MVP패턴을 사용
+웹브라우저 런타임 환경관점,모바일앱관점.설치형 앱 관점.
+Model-데이터소스(프런트 엔드에서의 데이터소스-백엔드로 전달할  또는 데이터 소스)
+View-화면 ui요소:웹브라우저에 렌더링된 list.html,create.html,modify.html
+Presenter:view요소에서 데이터를 추출해서 model소스에 바인딩하거나
+서버에서 가져온 데이터를 view요소에 데이터 바인딩 하는 역할(수동으로 한땀한땀)
+
+2) MVVM패턴 -요즘 100퍼센트는 MVVM UI 패턴을 사용해 개발하고 있다네.모바일/설치형 둘다.
