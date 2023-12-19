@@ -24,23 +24,18 @@ router.post('/create',async(req,res)=>{
     res.redirect('/message/list')
 })
 
+router.get('/delete',async(req,res)=>{
+    res.redirect('/message/list')
+})
 
-router.get('/modify',async(req,res)=>{
+router.get('/modify:/mid',async(req,res)=>{
     res.render('message/modify')
 })
 
 
-router.post('/modify',async(req,res)=>{
-    let userId = req.body.userId
-    let userPassword= req.body.userPassword
-    var member={
-        userId,
-        userPassword,
-    }
-    res.redirect('/message/list')
-})
 
-router.get('/delete',async(req,res)=>{
+router.post('/modify/:mid',async(req,res)=>{
+    
     res.redirect('/message/list')
 })
 

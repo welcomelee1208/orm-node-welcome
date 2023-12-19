@@ -23,29 +23,24 @@ router.post('/create',async(req,res)=>{
     res.redirect('/admin/list')
     
 })
+router.get('/delete',async(req,res)=>{
+    res.redirect('/admin/list')
+})
 
-
-router.get('/modify',async(req,res)=>{
+router.get('/modify/:mid',async(req,res)=>{
     res.render('admin/modify')
     
 })
 
 
-router.post('/modify',async(req,res)=>{
-    let adminId = req.body.admin_Id
-    let adminPassword = req.body.admin_Password
-    var admin={
-        adminId,
-        adminPassword,
-    
-    }
+router.post('/modify/:mid',async(req,res)=>{
+
+  
     res.redirect('/admin/list')
 })
 
 
-router.get('/delete',async(req,res)=>{
-    res.redirect('/admin/list')
-})
+
 
 
 

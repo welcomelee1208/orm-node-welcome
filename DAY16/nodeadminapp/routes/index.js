@@ -31,5 +31,8 @@ router.post('/login',async(req,res,next)=>{
     res.redirect('/')
 })
 
-
+router.get('/login', (req, res) => {
+    res.render('login', { layout: false });
+  });
+  
 module.exports = router;

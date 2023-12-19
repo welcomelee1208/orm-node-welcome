@@ -11,7 +11,7 @@ var articleRouter = require('./routes/article');
 var channelRouter = require('./routes/channel');
 var memberRouter = require('./routes/member');
 var messageRouter = require('./routes/message');
-
+var expressLayouts = require('express-ejs-layouts');
 var app = express();
 
 // view engine setup
@@ -23,6 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('layout', 'layout');
+app.set("layout extractScripts", true);
+app.set("layout extractStyles", true);
+app.set("layout extractMetas", true);
+app.use(expressLayouts);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
