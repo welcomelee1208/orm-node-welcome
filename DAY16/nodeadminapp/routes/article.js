@@ -5,7 +5,7 @@ var router = express.Router();
 
 
 router.get('/list',async(req,res)=>{
-    res.render('article/list')
+    res.render('article/list',{layout:"layout"})
 })
 
 router.get('/create',async(req,res)=>{

@@ -3,7 +3,7 @@ var router = express.Router();
 
 
 router.get('/list',async(req,res)=>{
-    res.render('channel/list')
+    res.render('channel/list',{layout:"layout"})
 })
 
 

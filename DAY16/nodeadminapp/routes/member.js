@@ -3,7 +3,7 @@ var router = express.Router();
 
 //회원 목록 웹페이지 요청 라우팅 메소드
 router.get('/list',async(req,res)=>{
-    res.render('member/list')
+    res.render('member/list',{layout:"layout"})
 })
 //회원 정보 조회처리 라우팅 메소드
 router.get('/create',async(req,res)=>{

@@ -136,7 +136,6 @@ router.post('/update',async(req,res)=>{
         try{
                 //step1:사용자가 수정한 게시글 수정 데이터 추출
                 var articleIdx= req.body.articleIdx
-                
                 var boardTypeCode= req.body.boardTypeCode
                 var title= req.body.title
                 var contents= req.body.contents

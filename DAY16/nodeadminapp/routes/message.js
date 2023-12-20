@@ -3,7 +3,7 @@ var router = express.Router();
 
 
 router.get('/list',async(req,res)=>{
-    res.render('message/list')
+    res.render('message/list',{layout:"layout"})
 })
 
 

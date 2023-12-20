@@ -4,7 +4,7 @@ var router = express.Router();
 //관리자 계정정보의 목록
 
 router.get('/list',async(req,res)=>{
-res.render('admin/list',{title:'list'})
+res.render('admin/list',{layout:"layout"})
 })
 
 //
