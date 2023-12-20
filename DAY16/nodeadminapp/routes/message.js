@@ -28,7 +28,7 @@ router.get('/delete',async(req,res)=>{
     res.redirect('/message/list')
 })
 
-router.get('/modify:/mid',async(req,res)=>{
+router.get('/modify/:mid',async(req,res)=>{
     res.render('message/modify')
 })
 
