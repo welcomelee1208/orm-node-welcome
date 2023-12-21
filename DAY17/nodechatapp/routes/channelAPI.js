@@ -4,56 +4,202 @@
 var express = require('express');
 var router = express.Router();
 
+const channellist=[
+    {community_id:1,
+    category_code:1,
+    channel_name:"초보자",
+    user_limit:50,
+    channel_img_path:"/img/img.jpg",
+    channel_desc:"초보자 방입니다.",
+    channel_state_code:2,
+    reg_date:2022-12-20,
+    reg_member_id:"hyyi1",
+    edit_date:2023-12-20,
+    edit_member:"welcome"
+},
+{   community_id:2,
+    category_code:2,
+    channel_name:"중수방",
+    user_limit:50,
+    channel_img_path:"/img/img.jpg",
+    channel_desc:"중수 방니다.",
+    channel_state_code:1,
+    reg_date:2022-12-20,
+    reg_member_id:"hyyi12",
+    edit_date:2023-12-20,
+    edit_member:"welcomelee"
+},
+{   community_id:3,
+    category_code:2,
+    channel_name:"고수방",
+    user_limit:50,
+    channel_img_path:"/img/img.jpg",
+    channel_desc:"고수 방입니다.",
+    channel_state_code:1,
+    reg_date:2022-12-20,
+    reg_member_id:"hyyi114",
+    edit_date:2023-12-20,
+    edit_member:"welcome1234"
+}
+    /*{"community_id":"1",
+    "category_code":"1",
+    "channel_name":"초보자",
+    "user_limit":"50",
+    "channel_img_path":"/img/img.jpg",
+    "channel_desc":"초보자 방입니다.",
+    "channel_state_code":"2",
+    "reg_date":"2022-12-20",
+    "reg_member_id":"hyyi1",
+    "edit_date":"2023-12-20",
+    "edit_member":"welcome"}*/
+]
+var apiResult = {
+    code:200,
+    data:[],
+    result:"sucess"
+}
 router.get('/all',async(req,res,next)=>{
-    var channelList= [
-        //db에서 채널목록정보를 모두 조회해 왔다고 가정하빈다.
-        {channel_id:1,channel1_name:"채널1"},
-        {channel_id:2,channel1_name:"채널2"},
-        {channel_id:3,channel1_name:"채널3"}
-        ]
-        //resjoan=>json 데이터 전달
     
-        res.json(channelList);
+    try{
+        apiResult.code=200
+        apiResult.data= channellist
+        apiResult.result="sucess"
+    }catch(err){
+        apiResult.code=500
+        apiResult.data= null
+        apiResult.result="failed."
+
+    }
+        res.json(channellist);
     })
 
     //채널 정보를 신규 등록하는 restapi라우팅 메소드
 router.post("/create",async(req,res)=>{
-        //step1 클라이언트나 프런트엔드에서 json형태로 데이터를 전달해준다고 가정하자
-        /*
-        
-    {"channel_name":"채널1"
-    "channel_desc":"채널 설명1"
+    try{
+            var community_id= req.body.community_id
+            var category_code= req.body.category_code
+            var channel_name= req.body.channel_name
+            var user_limit= req.body.user_limit
+            var channel_img_path= req.body.channel_img_path
+            var channel_desc= req.body.channel_desc
+            var channel_state_code= req.body.channel_state_code
+            var reg_date= req.body.reg_date
+            var reg_member_id=req.body.reg_member_id
+            var edit_date=req.body.edit_date
+            var edit_memeber= req.body.edit_member
+
+            var channeldata={
+                community_id:1,
+                category_code:1,
+                channel_name:"초보자",
+                user_limit:50,
+                channel_img_path:"/img/img.jpg",
+                channel_desc:"초보자 방입니다.",
+                channel_state_code:2,
+                reg_date:2022-12-20,
+                reg_member_id:"hyyi1",
+                edit_date:2023-12-20,
+                edit_member:"welcome"
+        }
+                    
+        apiResult.code=200,
+        apiResult.data= channeldata
+        apiResult.result="sucess"
+    }catch(err){
+        apiResult.code=500,
+        apiResult.data= null
+        apiResult.result="failed"
     }
-        
-        */
-       //step2 프런트엔드/클라이언트에서 보내준 json데이터를 추출한다.
-        var channelName = req.body.channel_name
-        var channelDescription= req.body.channel_desc
-    //step3  db의 채널 테이블에 해당 정보를 저장하기위한 json 객체를 정의한다.
-    var channel={
-        channel_id:1,
-        channel_name:channelName,
-        channel_desc:channelDescription
-    }
-    //step 4: dB에 채널 테이블에 프런트 에서 넘어온 데이터를 저장한다.
-    //step 5: 저장후 반환되는 실제 db dp저장된 단일 채널 정보를 클라이언트에 반환한다.
-    res.json(channel)
+    
+    res.json(apiResult)
 })
 router.post('/modify',async(req,res,next)=>{
-res.redirect('/all')
+
+    try{
+        var community_id= req.body.community_id
+        var category_code= req.body.category_code
+        var channel_name= req.body.channel_name
+        var user_limit= req.body.user_limit
+        var channel_img_path= req.body.channel_img_path
+        var channel_desc= req.body.channel_desc
+        var channel_state_code= req.body.channel_state_code
+        var reg_date= req.body.reg_date
+        var reg_member_id=req.body.reg_member_id
+        var edit_date=req.body.edit_date
+        var edit_memeber= req.body.edit_member
+
+        var changedchanneldata={
+        community_id,
+        category_code,
+        channel_name,
+        user_limit,
+        channel_img_path,
+        channel_desc,
+        channel_state_code,
+        reg_date,
+        reg_member_id,
+        edit_date:Date.now(),
+        edit_memeber
+    }
+    var affectedCnt=1
+
+    apiResult.code=200,
+    apiResult.data= affectedCnt
+    apiResult.result="sucess"
+}catch(err){
+    apiResult.code=500,
+    apiResult.data= null
+    apiResult.result="failed"
+}
+
+res.json(apiResult)
 })
-router.post('/delete',async(req,res,next)=>{
-    res.redirect('/all')
+router.post('/delete/:cidx',async(req,res,next)=>{
+    
+    try{
+        var community_idx= req.params.cidx
+        var deletedCnt=1
+
+    apiResult.code=200,
+    apiResult.data= deletedCnt
+    apiResult.result="sucess"
+}catch(err){
+    apiResult.code=500,
+    apiResult.data= null
+    apiResult.result="failed"
+}
+
+    
+    res.json(apiResult)
 })
-router.get('/:cid',async(req,res,next)=>{
-        
-    var channelId = req.params.id
+router.get('/:cidx',async(req,res,next)=>{
+        try{
+    var community_idx = req.params.category_cidx
     
     var channel = {
-    channel_id:1,
-    channel_name:"채널1"
+        community_id:1,
+            category_code:1,
+            channel_name:"초보자",
+            user_limit:50,
+            channel_img_path:"/img/img.jpg",
+            channel_desc:"초보자 방입니다.",
+            channel_state_code:2,
+            reg_date:2022-12-20,
+            reg_member_id:"hyyi1",
+            edit_date:2023-12-20,
+            edit_member:"welcome"
+    
 }
-res.json(channel)
+apiResult.code=200,
+apiResult.data= channel
+apiResult.result="sucess"
+}catch(err){
+    apiResult.code=500,
+    apiResult.data= null
+    apiResult.result="failed"
+}
+
+res.json(apiResult)
 })
 
 

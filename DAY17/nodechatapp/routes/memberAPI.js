@@ -1,63 +1,223 @@
+//채팅방 데이터를 관리하는 restFul 라우터 파일 
+//http://localhost:3000/api/member~
 
 var express = require('express');
 var router = express.Router();
 
+const memberlist=[
+    {   member_id: "hyyi1",
+        email: "hyyi1@naver.com",
+        member_password:"12134",
+        name:"이웰컴",
+        profile_img_path:"/img/profile.jppg",
+        telephone:"010-4997-5826",
+        entry_type_code:1,
+        use_state_code: 2,
+        birth_date:"2000-11-08",
+        reg_date: "2022-12-14",
+        reg_member_id:"hy1234",
+        edit_date: "2023-12-24",
+        edit_member_id: "웰컴"
+    },
+    {   member_id: "hyyi12",
+        email: "hyyi12@naver.com",
+        member_password:"121314",
+        name:"이웰컴2",
+        profile_img_path:"/img/profile.jppg",
+        telephone:"011-4997-5826",
+        entry_type_code:1,
+        use_state_code: 1,
+        birth_date:"2000-12-08",
+        reg_date: "2022-12-14",
+        reg_member_id:"hy1234",
+        edit_date: "2023-12-24",
+        edit_member_id: "웰컴"
+    },  
+    {    member_id: "hyyi123",
+        email: "hyyi123@naver.com",
+        member_password:"121341",
+        name:"이웰컴1",
+        profile_img_path:"/img/profile.jppg",
+        telephone:"013-4997-5826",
+        entry_type_code:1,
+        use_state_code: 1,
+        birth_date:"2000-12-08",
+        reg_date: "2022-12-14",
+        reg_member_id:"hy1234",
+        edit_date: "2023-12-24",
+        edit_member_id: "웰컴",
+}
+    /*{ "member_id": "hyyi1",
+        "email": "hyyi1@naver.com",
+        "member_password":"12134",
+        "name":"이웰컴",
+        "profile_img_path":"/img/profile.jppg",
+        "telephone":"010-4997-5826",
+        "entry_type_code":"1",
+        "use_state_code": "1",
+        "birth_date":"2000-12-08",
+        "reg_date": "2022-12-14",
+        "reg_member_id":"hy1234",
+        "edit_date": "2023-12-24",
+        "edit_member_id": "웰컴"}*/
+]
+var apiResult = {
+    code:200,
+    data:[],
+    result:"sucess"
+}
 router.get('/all',async(req,res,next)=>{
-    var memberList= [
-        //db에서 채널목록정보를 모두 조회해 왔다고 가정하빈다.
-        {member_id:1,member_name:"허핱나",email:"hyyi1@naver.com",telephone:"01049975826"},
-        {member_id:2,member_name:"흐얼읕",email:"hyyi4@naver.com",telephone:"01049975426"},
-        {member_id:3,member_name:"김눌트",email:"hyyi3@naver.com",telephone:"01049975526"},
-        ]
-        //resjoan=>json 데이터 전달
     
-        res.json(memberList);
+    try{
+        apiResult.code=200
+        apiResult.data= memberlist
+        apiResult.result="sucess"
+    }catch(err){
+        apiResult.code=500
+        apiResult.data= null
+        apiResult.result="failed."
+
+    }
+        res.json(memberlist);
     })
-//채널 정보를 신규 등록하는 restapi라우팅 메소드
-    router.post("/create",async(req,res)=>{
-        //step1 클라이언트나 프런트엔드에서 json형태로 데이터를 전달해준다고 가정하자
-        /*
-        
-    {"member_name":"할낭티",
-    "email":"hyyi1@anve.com",
-    "telephone":"101848751"
+
+    //채널 정보를 신규 등록하는 restapi라우팅 메소드
+router.post("/create",async(req,res)=>{
+    try{
+            var member_id= req.body.member_id
+            var email = req.body.email
+            var member_password= req.body.member_password
+            var name= req.body.name
+            var profile_img_path= req.body.profile_img_path
+            var telephone= req.body.telephone
+            var entry_type_code= req.body.entry_type_code
+            var use_date_code= req.body.use_date_code
+            var birth_date=req.body.birth_date
+            var reg_date=req.body.reg_date
+            var reg_member_id= req.body.reg_member_id
+            var edit_date=req.body.edit_date
+            var edit_member_id=req.body.edit_member_id
+            
+            var memberdata={
+                member_id: "hyyi1",
+                email: "hyyi1@naver.com",
+                member_password:"12134",
+                name:"이웰컴",
+                profile_img_path:"/img/profile.jppg",
+                telephone:"010-4997-5826",
+                entry_type_code:1,
+                use_state_code: 2,
+                birth_date:"2000-11-08",
+                reg_date: "2022-12-14",
+                reg_member_id:"hy1234",
+                edit_date: "2023-12-24",
+                edit_member_id: "웰컴"
+        }
+                    
+        apiResult.code=200,
+        apiResult.data= memberdata
+        apiResult.result="sucess"
+    }catch(err){
+        apiResult.code=500,
+        apiResult.data= null
+        apiResult.result="failed"
     }
-        */
-       //step2 프런트엔드/클라이언트에서 보내준 json데이터를 추출한다.
-        var memberName = req.body.member_name
-        var email= req.body.email
-        var telephone=req.body.telephone
-    //step3  db의 채널 테이블에 해당 정보를 저장하기위한 json 객체를 정의한다.
-    var member={
-        member_id:1,
-        member_name:memberName,
-        email:email,
-        telephone:telephone
-    }
-    //step 4: dB에 채널 테이블에 프런트 에서 넘어온 데이터를 저장한다.
-    //step 5: 저장후 반환되는 실제 db dp저장된 단일 채널 정보를 클라이언트에 반환한다.
-    res.json(member)
+    
+    res.json(apiResult)
 })
 router.post('/modify',async(req,res,next)=>{
 
-})
-router.post('/delete',async(req,res,next)=>{
-    
-})
-//단일 채널 정보를 조회하는 restapi 라우팅 메소드
-router.get('/:mid',async(req,res,next)=>{
-    //step1: url에서 채널의 고유번호를 추출한다.
-    var memberId = req.params.id
-    //step2: 추출된 채널 고유번호를 이용해 db멤버테이블에서
-    //해당번호와 동일한 단일건의 멤버 정보를 조회
-    var member = {
-    member_id:1,
-    member_name:"허핱나",
-    email:"hyyi1@naver.com",
-    telephone:"01049975826"
+    try{
+        var member_id= req.body.member_id
+        var email = req.body.email
+        var member_password= req.body.member_password
+        var name= req.body.name
+        var profile_img_path= req.body.profile_img_path
+        var telephone= req.body.telephone
+        var entry_type_code= req.body.entry_type_code
+        var use_date_code= req.body.use_date_code
+        var birth_date=req.body.birth_date
+        var reg_date=req.body.reg_date
+        var reg_member_id= req.body.reg_member_id
+        var edit_date=req.body.edit_date
+        var edit_member_id=req.body.edit_member_id
+
+        var changedmemberdata={
+        member_id,
+        email,
+        member_password,
+        name,
+        profile_img_path,
+        telephone,
+        entry_type_code,
+        use_date_code,
+        birth_date,
+        reg_date,
+        reg_member_id,
+        edit_date:Date.now(),
+        edit_memeber
+    }
+    var affectedCnt=1
+
+    apiResult.code=200,
+    apiResult.data= affectedCnt
+    apiResult.result="sucess"
+}catch(err){
+    apiResult.code=500,
+    apiResult.data= null
+    apiResult.result="failed"
 }
-    //step 3: 
-res.json(member)
+
+res.json(apiResult)
 })
+router.post('/delete/:cidx',async(req,res,next)=>{
+    
+    try{
+        var member_idx= req.params.cidx
+        var deletedCnt=1
+
+    apiResult.code=200,
+    apiResult.data= deletedCnt
+    apiResult.result="sucess"
+}catch(err){
+    apiResult.code=500,
+    apiResult.data= null
+    apiResult.result="failed"
+}
+
+    
+    res.json(apiResult)
+})
+router.get('/:cidx',async(req,res,next)=>{
+        try{
+    var member_idx = req.params.category_cidx
+    
+    var member= {
+        member_id: "hyyi1",
+        email: "hyyi1@naver.com",
+        member_password:"12134",
+        name:"이웰컴",
+        profile_img_path:"/img/profile.jppg",
+        telephone:"010-4997-5826",
+        entry_type_code:1,
+        use_state_code: 2,
+        birth_date:"2000-11-08",
+        reg_date: "2022-12-14",
+        reg_member_id:"hy1234",
+        edit_date: "2023-12-24",
+        edit_member_id: "웰컴"
+}
+apiResult.code=200,
+apiResult.data= member
+apiResult.result="sucess"
+}catch(err){
+    apiResult.code=500,
+    apiResult.data= null
+    apiResult.result="failed"
+}
+
+res.json(apiResult)
+})
+
 
     module.exports = router;
