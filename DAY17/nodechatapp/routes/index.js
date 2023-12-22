@@ -14,7 +14,7 @@ router.get('/login',async(req,res)=>{
 })
 
 router.post('/login',async(req,res)=>{
- 
+
   res.redirect('/chat')
 })
 
@@ -28,8 +28,9 @@ router.post('/entry',async(req,res)=>{
 router.get('/find',async(req,res)=>{
   res.render('find',{layout:"authlayout"})
 })
+// 암호찾기 사용자 입력 정보 처리 요청과 응답
 router.post('/find',async(req,res)=>{
-  res.redirect('/login')
+  res.render('/login',{email:"", result:"ok"})
 })
 
 

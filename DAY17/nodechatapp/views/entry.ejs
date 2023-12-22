@@ -1,7 +1,7 @@
 
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 					<div class="login-wrapper">
-						<form action="/login">
+						<form action="/entry"method="post" id="entryForm">
 							<div class="login-screen">
 								<div class="login-body">
 									<a href="/index" class="login-logo">
@@ -9,11 +9,11 @@
 									</a>
 									<h6>Welcome to Quick Chat App,<br>Create your account.</h6>
 									<div class="field-wrapper">
-										<input type="email" autofocus>
+										<input type="email" name="email" id="email"autofocus>
 										<div class="field-placeholder">Email ID</div>
 									</div>
 									<div class="field-wrapper">
-										<input type="password">
+										<input type="password"name="password" id="password">
 										<div class="field-placeholder">Password</div>
 									</div>
 									<div class="field-wrapper mb-3">
