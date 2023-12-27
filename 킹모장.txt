@@ -699,3 +699,21 @@ orm 기반 개발 방식 2가지
 (2) DB First 방식
 DB에 물리적 테이블을 먼저 만들거나 이미 만들어진 테이블 기반으로 
 모델을 자동으로 생성해서 모델기반 프로그래밍을 하는 기법
+
+
+DB 자료형 => 프로그래밍 처리 자료형
+• TEXT => TEXT(긴문자열)
+• INT => INTEGER
+• TINYINT => TINYINT
+• BIT => BOOLEAN
+• DATETIME =>DATE
+• NOT NULL = allowNull:false
+
+
+==================================================================
+ORM 은 만능인가?
+ORM의 장단점을 파악하자
+ORM을 효율적으로 사용하는 방법?
+단순 CRUD 는 ORM으로 처리/XMRGL CUD는 ORM 으로 필수 처리
+단순 조회 (단일테이블에대한 단일건 조회/다중건 조회)-ORM처리(findOnd, findAll) 조건도 단순한 경우
+그런데 여러개의 테이블을 조인해서 많은 칼럼
