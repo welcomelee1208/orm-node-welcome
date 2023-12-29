@@ -22,9 +22,6 @@ router.post('/create',async(req,res)=>{
     var telephone= req.body.telephone
     var dept_name = req.body.dept_name
     
-    
-    
-    
     var admin={
         admin_id,
         admin_password,
