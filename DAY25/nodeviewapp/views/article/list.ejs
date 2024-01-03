@@ -88,7 +88,7 @@
 
 
                                             <% for(var i =0;i<articles.length;i++){ %>
-                                               
+                                                
                                                 <tr>
                                                     <td><%=articles[i].article_id%></td>
                                                     
@@ -109,11 +109,11 @@
                                                     </td>
                                                     
                                                     
-                                                    <td><%=articles[i].reg_date%></td>
+                                                    <td><%=moment(articles[i].edit_date).format('YYYY-MM-DD HH:mm')%></td>
                                                 </tr>
 
-                                           <% } %>
-                                           
+                                            <% } %>
+                                                
 
                                         </tbody>
                                     </table>
