@@ -139,7 +139,7 @@ router.post('/modify/:aid',async(req,res,next)=>{
         edit_date:Date.now(),
         edit_member_id:register
     }
-    const result = await Article.updateOne({article_id:articleIdx})
+    const result = await Article.updateOne({article_id:articleIdx},article)
     res.redirect('/article/list')
 })
 

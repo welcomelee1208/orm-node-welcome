@@ -32,7 +32,7 @@ mongoose.connection.on('disconnected', () => {
 //회원정보 콜렉션 모델을 참조합니다.
 //require('./member.js');
 
-//게시글 ODM모델 추가 
+//관리자ODM모델 추가 
 require('./article.js');
 
 
