@@ -1,7 +1,7 @@
 
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 					<div class="login-wrapper">
-						<form action="/chat">
+						<form action="/login" method="post" id ="loginForm">
 							<div class="login-screen">
 								<div class="login-body">
 									<a href="/chat" class="login-logo">
@@ -9,12 +9,12 @@
 									</a>
 									<h6>Welcome back,<br>Please login to your account.</h6>
 									<div class="field-wrapper">
-										<input type="email" autofocus>
-										<div class="field-placeholder" name="email">Email ID</div>
+										<input type="email" name="email"autofocus>
+										<div class="field-placeholder" >Email ID</div>
 									</div>
 									<div class="field-wrapper mb-3">
-										<input type="password">
-										<div class="field-placeholder" name="user_password">Password</div>
+										<input type="password"name="password">
+										<div class="field-placeholder" >Password</div>
 									</div>
 									<div class="actions">
 										<a href="/find">Forgot password?</a>

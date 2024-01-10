@@ -54,7 +54,7 @@
 				</div>
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 					<div class="login-wrapper">
-						<form action="index.html">
+						<form id ="entryForm">
 							<div class="login-screen">
 								<div class="login-body">
 									<a href="index.html" class="login-logo">
@@ -62,16 +62,24 @@
 									</a>
 									<h6>Welcome to Quick Chat App,<br>Create your account.</h6>
 									<div class="field-wrapper">
-										<input type="email" autofocus>
+										<input type="email" id ="email" autofocus>
 										<div class="field-placeholder">Email ID</div>
 									</div>
 									<div class="field-wrapper">
-										<input type="password">
+										<input type="password"id="password">
 										<div class="field-placeholder">Password</div>
 									</div>
 									<div class="field-wrapper mb-3">
-										<input type="password">
+										<input type="password" id ="passwordconfirm">
 										<div class="field-placeholder">Confirm Password</div>
+									</div>
+									<div class="field-wrapper mb-3">
+										<input type="text" id ="name">
+										<div class="field-placeholder">Name</div>
+									</div>
+									<div class="field-wrapper mb-3">
+										<input type="text" id ="telephone">
+										<div class="field-placeholder">Telephone</div>
 									</div>
 									<div class="actions">
 										<button type="submit" class="btn btn-primary ml-auto">Sign Up</button>
@@ -91,6 +99,41 @@
 		<!-- *************
 			************ Login container end *************
 		************* -->
+	<script src ="/js/jquery.min,js"></script>
+	<script>
+		$("#entryForm").submit(function(){
+					if($("#email").val()==""){
+						alert("메일주소를 입력해주세요.")
+						$("#email").focus();
 
-	</body>
+						return false; //submit 실행 중단 즉 더이상 데이터가 넘어가지 않습니다.
+					}
+					//AJAX 라우팅 기능 지정
+					var member = {
+
+						"email": $("#email").val(),
+						"password":$("#password").val(),
+						"name":$("#name").val(),
+						"telephone":$("#telephone").val()
+					};
+					$.post('/api/member/entry',member).done(function(result){
+						console.log("벡엔드에 전달되는 회원가입 결과 값",result);
+
+						if(result.code == 200){
+								alert("회원등록완료");
+								location.href="/login.html";
+						}else if(result.code ==400 ||result.code ==500 ){
+									alert("회원가입 실패하였습니다.");
+						}else if(result.code == 500 && result.msg =="ExistDoubleEmail"){
+											alert("동일한 메일주소가 존재합니다.")
+								}else{
+											alert("회원가입 실패하였습니다.")
+										}
+
+						});
+
+					return false; //submit 실행 중단 즉 더이상 데이터가 넘어가지 않습니다.
+				});
+	</script>
+</body>
 </html>

@@ -3,6 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+//환경설정파일 호출하기:전역정보로 설정됩니다.
+//호출 위치는 반드시 app.js내 최상위에서 호출해야함.
+require('dotenv').config()
+const cors = require("cors");
+var sequelize= require('./models/index.js').sequelize
 var expressLayouts = require('express-ejs-layouts');
 
 var indexRouter = require('./routes/index');
@@ -12,7 +17,16 @@ var channelAPIRouter= require('./routes/ChannelAPI')
 var channelRouter= require('./routes/channel')
 
 var app = express();
-
+sequelize.sync();
+//모든 RESTFUL호출에 대한 응답 허락하기-CORS ALL허락..
+//app.use(cors());
+//특정 도메인주소만 허가
+app.use(
+  cors({
+    methods: ["GET", "POST", "DELETE", "OPTIONS"],
+    origin: ["http://localhost:3005", "https://naver.com"],
+  })
+);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

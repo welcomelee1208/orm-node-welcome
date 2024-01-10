@@ -736,3 +736,27 @@ ORM을 효율적으로 사용하는 방법?
 해당 보안키값으로 암호화 하고 복호화가 가능함
 ㄴ회원주요 개인정보:전화번호, 주소지 , 생년월일,주민번호
 최악의 경우 db가
+
+
+CORS 이슈
+
+동일 출처(프론트엔드리소스) 동일 출처 데이터 백엔드리소스(RESTAPI) 위반 
+
+                              
+프론트엔드 웹페이지와 백엔드 RESTAPI 가 같은 도메인주소(서버)에서 제공되는경우는 
+CORS이슈가 발생안함...
+
+
+그런데.. 
+RESTFUL을 호출하는 클라이언트(모바일앱/타사사이트/프론트엔드 다른도메인사이트/로컬컴퓨터)등 
+
+
+Client                                                                                  RESTFul Backend
+
+Mobile Natvie App
+Mobiel Cross Platform APP(Flutter...)
+RESTful을 서비스하는 동일 어플리케이션내 WebPage                    RESTful Data Backend Servcie1
+타사 웹페이지
+자사의 별도 도메인으로 서비스되는 프론트엔드 웹페이지
+자사의 별도 도메인으로 서비스되는 웹사이트
+로컬컴퓨터에서 직접 띠운 웹페이지
