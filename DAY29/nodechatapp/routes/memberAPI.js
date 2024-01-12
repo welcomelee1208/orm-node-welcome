@@ -4,8 +4,10 @@
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcryptjs')
+var jwt = require('jsonwebtoken')
 var db= require("../models/index")
 var AES = require('mysql-aes')
+var{tokenAuthChecking}= require('./apimiddleware') 
 router.post('/entry',async(req,res,next)=>{
     var apiResult ={
         code:400,
@@ -77,18 +79,36 @@ router.post('/login',async(req,res,next)=>{
         var member = await db.Member.findOne({where:{email:email}})
         var resultMsg=""
         if(member == null ){
-            resultMsg="notExistEmail"
+            resultMsg="NotExistEmail"
             apiResult.code = 400,
             apiResult.data =null,
             apiResult.msg = resultMsg
         }else{
+        //step2:단방향 암호화 기반 동일암호일치여부 체크
         //단방향 암호화해시알고리즘 체크
         var compareResult = await bcrypt.compare(password,member.member_password)
         if(compareResult){
             resultMsg="ok"
             member.member_password=""
+            //step3: 인증된 사용자의 기본정보 jwt 토큰 생성 발급
+            //step3-1: JWT 토큰에 담을 사용자 정보 생성
+            //jwt인증 사용자 정보 토큰값 구조정의및 데이터 세팅
+            var memberTokenData = {
+            member_id:member.member_id,
+            email:member.email,
+            name:member.name,
+            profile_img_path:member.profile_img_path,
+            telephone:member.telephone
+            }
+
+            var token = await jwt.sign(memberTokenData,process.env.JWT_SECRET,{expiresIn:'24h',issuer:'welcome'})
+
+
+
+
+
             apiResult.code = 200,
-            apiResult.data =member,
+            apiResult.data =token
             apiResult.msg = resultMsg
         }else{
             resultMsg="NotCorrectPassword"
@@ -109,7 +129,40 @@ router.post('/login',async(req,res,next)=>{
 router.post('/find',async(req,res,next)=>{
     res.json({})
 })
+//로그인한 현재 사용자의 회원기본정보 조회
+router.get('/profile',tokenAuthChecking,async(req,res,next)=>{
+    var apiResult ={
+        code:400,
+        data:null,
+        msg:""
+    }
+    try{
+        //step1: 웹브라우저 헤더에서 사용자 jwt인증 토큰값을 추출한다.
+        var token =req.headers.authorization.split('Bearer ')[1]
+        var tokenJsonData= await jwt.verify(token,process.env.JWT_SECRET)
+        
+        //
+        var loginMemberId = tokenJsonData.member_id
+        
+
+        var dbMember = await db.Member.findOne({
+            where:{member_id:loginMemberId},
+            attributes:['email','name','profile_img_path','telephone']
+        })
+        dbMember.telephone = AES.decrypt(encryptedTelephone, process.env.MYSQL_AES_KEY)
 
 
+
+        apiResult.code = 200,
+        apiResult.data =dbMember,
+        apiResult.msg = "ok"
+    }
+    catch(err){
+        apiResult.code = 500,
+        apiResult.data =null,
+        apiResult.msg = "Failed"
+    }
+    res.json(apiResult)
+})
 
     module.exports = router;

@@ -25,7 +25,7 @@ const { QueryTypes } = sequelize;
     CONVERT(AES_DECRYPT(UNHEX(email),'${process.env.MYSQL_AES_KEY}')USING utf8) as email,
     CONVERT(AES_DECRYPT(UNHEX(telephone),'${process.env.MYSQL_AES_KEY}')USING utf8) as telephone,
     dept_name,used_yn_code,reg_date,reg_member_id 
-    FROM admin_member;`;
+    FROM admin;`;
 
     var admins = await sequelize.query(sqlQuery,{
         raw: true,

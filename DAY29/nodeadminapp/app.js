@@ -6,7 +6,7 @@ var logger = require('morgan');
 //환경설정파일 호출하기:전역정보로 설정됩니다.
 //호출 위치는 반드시 app.js내 최상위에서 호출해야함.
 require('dotenv').config()
-
+var session = require('express-session')
 var sequelize = require('./models/index').sequelize
 //expresslayout 참조
 var expressLayouts = require('express-ejs-layouts');
@@ -22,6 +22,21 @@ var app = express();
 
 sequelize.sync()
 // view engine setup
+
+
+//express-session기반 서버세션 설정 구성하기 
+app.use(
+  session({
+    resave: false,//매번 세션 강제 저장
+    saveUninitialized: true, 
+    secret: "testsecret", //암호화할떄 사용하는 salt값
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge:1000 * 60 * 5 //5분동안 서버세션을 유지하겠다.(1000은 1초)
+    },
+  }),
+);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 //레이아웃 설정

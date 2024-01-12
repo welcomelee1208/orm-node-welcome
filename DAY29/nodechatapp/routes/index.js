@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 var bcrypt = require('bcryptjs')
-
+const jwt = require('jsonwebtoken');
 var db = require('../models/index')
 
 /* GET home page. */
@@ -65,6 +65,49 @@ router.get('/find',async(req,res)=>{
 router.post('/find',async(req,res)=>{
   res.render('/login',{email:"", result:"ok"})
 })
+//jwt토큰 생성웹페이지요청과 응답
+
+router.get('/maketoken',async(req,res)=>{
+  var token=""
+  res.render('maketoken.ejs',{layout:false,token})
+})
+// jwt토큰 생성후 토큰확인하기
+router.post('/maketoken',async(req,res)=>{
+  var token=""
+//토큰에 담을 jsondata구조 및 데이터 바인딩
+//jwt토큰영역내에 payload영역에 담깁니다.
+  var jsonTokenData = {
+    userid:req.body.userid,
+    email:req.body.email,
+    usertype:req.body.usertype,
+    name:req.body.name,
+    telephone:req.body.telephone
+    }
+    //json데이터를 jwt토큰으로 생성한다.
+    //jwt.sign('JSON데이터',토큰인증키,{옵션(유효기간,발급자)})
+    // 파기일시 지정 포맷//30s,60m,24h,200d
+    token = await jwt.sign(jsonTokenData,process.env.JWT_SECRET,{expiresIn:'24h',issuer:'welcome'})
+  res.render('maketoken',{layout:false,token})
+})
+
+router.get('/readtoken',async(req,res)=>{
+  var token=req.query.token
+  var tokenJsonData={}
+  try{
+  tokenJsonData= await jwt.verify(token,process.env.JWT_SECRET);
+  }catch(err){
+    token="유효하지않은 토큰입니다."
+  tokenJsonData = {
+      userid:"",
+      email:"",
+      usertype:"",
+      name:"",
+      telephone:""
+      }
+  }
+  res.render('readtoken.ejs',{layout:false,token,tokenJsonData})
+})
+
 
 
 
