@@ -2,20 +2,25 @@ var express = require('express');
 var router = express.Router();
 
 var bcrypt = require('bcryptjs');
-
+//passport 객체 참조
+const passport = require('passport');
 var db = require('../models/index');
 //로그인 여부체크 사용자권한 세션 미들웨어 참조
-const {isLoggedIn,isNotLoggedIn}
-= require('./sessionMiddleware')
-
+// const {isLoggedIn,isNotLoggedIn}
+// = require('./sessionMiddleware')
+//로그인 여부체크 사용자권한 패스포트 미들웨어 참조
+const {isLoggedIn,isNotLoggedIn} = require('./passportMiddleware')
 /* 
 기능: 관리자 웹사이트 메인페이지 요청과 응답처리 라우팅 메소드 
 호출주소: http://localhost:3000/
  */
 router.get('/',isLoggedIn, async(req, res, next)=> {
 
-  //현재 로그인한 사용자 세션 정보 추출하기
-  var admin_id = req.session.loginUser.admin_id; 
+  //case1:일반세션현재 로그인한 사용자 세션 정보 추출하기
+  //var admin_id = req.session.loginUser.admin_id; 
+  
+  //case2:패스포트 세션 기반 로그인 사용자 정보 추출하기
+  var admin_id = req.session.passport.user.admin_id;
 
   res.render('index.ejs');
 });
@@ -31,7 +36,7 @@ router.get('/login', isNotLoggedIn,async(req, res, next)=> {
 
 
 /* 
-기능: 관리자 웹사이트 로그인 처리 라우팅 메소드 
+기능: 관리자 웹사이트 로그인 처리 라우팅 메소드 (일반 session)
 호출주소: http://localhost:3001/login
  */
 router.post('/login', async(req, res, next)=> {
@@ -88,15 +93,51 @@ router.post('/login', async(req, res, next)=> {
   }
 
 });
-//사용자 로그아웃처리 라우팅 메소드
+/* 
+기능: 관리자 웹사이트 로그인 처리 라우팅 메소드 (passport 기반)
+호출주소: http://localhost:3001/login
+ */
+router.post('/passportlogin',async(req,res,next)=>{
+  //패스포트 기반 로그인 인증처리 메소드 호출하여 패스포트 기반으로 로그인 실시한다.
+  //
+  passport.authenticate('local',(authError,admin,info)=>{
+    if(authError){
+      console.log(authError)
+      return next(authError)
+    }
+    //로컬 전략 파일에서 전달된 관리자 세션 데이터가 전달이 안된 경우.
+    // 동일 아이디와 암호가 없는 경우 done('',false)두번째 파라메터의 값이 false로 전달됨
+    //아이디 암호가 틀린 경우 체크
+    if(!admin){
+      //flash 패키지 필요: flash패키지는 서버 기반에서 특정 페이지 이동시 바로전에 특정 데이터를 전달해주고 싶을떄 사용
+      //req.flash('키명',키값)
+      req.flash('loginerror',info.message)
+      return res.redirect('/login')
+    }
+    //정상적으로passport 인증이 완료된 경우
+    // req.login('세션으로 저장할 사용자 데이타',처리결과 콜백함수)은 passport 기반 정상 인증이 완료되면 passport 세션을 생성해주는 기능 제공
+    req.login(admin,(loginError)=>{
+      if(loginError){
+        console.log(loginError)
+        return next(loginError)
+      }
+      // 정상 적으로 세션 데이터가 세션에 반영된 경우
+      return res.redirect('/')//메인 대시보드 페이지 이동
+    })
+  })(req,res,next)
+})
+
+
+
+//사용자 로그아웃처리 라우팅 메소드:패스포트 전용 로그아웃
 //http://localhost:3001/logout
 router.get('/logout',isLoggedIn,async(req,res,next)=>{
-  // req.logout(function(err){
-  //   //로그아웃후 관리자 로그인 페이지로 이동시키기
-  //   req.session.destroy();
-  //   res.redirect('/login')
-  // })
-  res.redirect('/login')
+  req.logout(function(err){
+    //로그아웃후 관리자 로그인 페이지로 이동시키기
+    req.session.destroy();
+    res.redirect('/login')
+  })
+  
 })
 
 module.exports = router;

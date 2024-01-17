@@ -59,6 +59,7 @@
 
                                     <!-- SUMMERNOTE WebEditor 표시영역  -->
                                     <div class="summernote"></div>
+                                    <input type ="hidden" id="contents"name="contents">
                                     
                                     <!-- <textarea class="form-control" name="contents" id="contents" rows="10" cols="5"></textarea> -->
 
@@ -106,7 +107,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="control-label">첨부파일</label>
-                                    <input type="file" name="file" id="file" class="form-control">
+                                    <input type="file" name="file1" id="file1" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -230,6 +231,10 @@
                 $("#register").focus();
                 return false;
             }
+            //썸머노트 웹 에디터의 사용자가 입력한 모든 텍스트와 html 코드값을 추출한다.
+            let contentsHTML = $('.summernote').summernote('code')
+            //html 태그값들을 contents hidden요소의 값으로 저장한다.
+            $("#contents").val(contentsHTML)
 
             //최종 웹브라우저에서 서버로 데이터를 전송하기전에 클라이언트 디버깅을 걸어보자..
             //debugger;

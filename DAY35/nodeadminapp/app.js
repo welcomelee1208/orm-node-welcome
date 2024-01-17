@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//일회성(휘발성) 데이터를 특정 페이지(뷰)에 전달하는 방식제공 플래시 팩키지참조하기
+var flash = require('connect-flash');
+
 //환경설정파일 호출하기: 전역정보로 설정됩니다.
 //호출위치는 반드시 app.js내 최상위에서 호출할것..
 require('dotenv').config();
@@ -12,7 +15,11 @@ require('dotenv').config();
 //express기반 서버세션 관리 팩키지 참조하기 
 var session = require('express-session');
 
+//패스포트 패키지 참조
+const passport = require('passport')
 
+//인증관련 패스포트 개발자 정의 모듈참조,로컬로그인전략적용
+const passportConfig = require('./passport/index.js');
 
 var sequelize = require('./models/index').sequelize;
 
@@ -31,9 +38,14 @@ var articleAPIRouter = require('./routes/articleAPI');
 
 var app = express();
 
+//flash 메시지 사용 활성화: cookie-parser와 express-session을 사용하므로 이들보다는 위로 위치
+app.use(flash());
+
 //mysql과 자동연결처리 및 모델기반 물리 테이블 생성처리제공
 sequelize.sync(); 
 
+//패스포트 설정처리
+passportConfig(passport)
 
 //express-session기반 서버세션 설정 구성하기 
 app.use(
@@ -48,6 +60,9 @@ app.use(
     },
   }),
 );
+//패스포트-세션 초기화 : express session 뒤에 설정
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 

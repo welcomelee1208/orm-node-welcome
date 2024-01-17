@@ -10,8 +10,9 @@ const AES = require("mysql-aes");
 var db = require('../models/index');
 var sequelize = db.sequelize;
 const { QueryTypes } = sequelize;
-const {isLoggedIn,isNotLoggedIn}
-= require('./sessionMiddleware')
+// const {isLoggedIn,isNotLoggedIn}
+// = require('./sessionMiddleware')
+const {isLoggedIn,isNotLoggedIn} = require('./passportMiddleware')
 /* 
 기능: 관리자 계정 목록 조회 웹페이지 요청
 호출주소: http://localhost:3000/admin/list

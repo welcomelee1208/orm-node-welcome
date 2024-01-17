@@ -12,8 +12,8 @@ var multer = require('multer');
 //S3전용 업로드 객체 참조하기
 var {upload} = require('../common/aws_s3');
 
-const {isLoggedIn,isNotLoggedIn}
-= require('./sessionMiddleware')
+// const {isLoggedIn,isNotLoggedIn} = require('./sessionMiddleware')
+const {isLoggedIn,isNotLoggedIn} = require('./passportMiddleware')
 //multer 파일저장위치 지정
 var storage  = multer.diskStorage({ 
     destination(req, file, cb) {
@@ -122,19 +122,19 @@ router.post('/list',isLoggedIn,async(req,res)=>{
 
 //신규 게시글 등록 웹페이지 요청 및 응답 라우팅 메소드
 //http://localhost:3000/article/create
-router.get('/create',async(req,res)=>{
+router.get('/create',isLoggedIn,async(req,res)=>{
     res.render('article/create.ejs');
 });
 
 
 //신규 게시글 사용자 등록정보 처리 요청 및 응답 라우팅메소드
 //upload.single('html태그내 file 태그의 name명')
-router.post('/create',simpleUpload.single('file'),isLoggedIn,async(req,res)=>{
+router.post('/create',simpleUpload.single('file1'),isLoggedIn,async(req,res)=>{
 
     //step1: 사용자가 입력한 게시글 등록 데이터 추출
     var boardTypeCode = req.body.boardTypeCode;
     var title = req.body.title;
-    var contents = req.body.contents;
+    var contents = req.body.contents;// hidden 태그에서 사용자에디터에서 입력한 값을 가져옴
     var articleTypeCode = req.body.articleTypeCode;
     var isDisplayCode = req.body.isDisplayCode;
     var register = req.body.register;
@@ -155,7 +155,7 @@ router.post('/create',simpleUpload.single('file'),isLoggedIn,async(req,res)=>{
         ip_address:"111.222.222.222",
         article_type_code:articleTypeCode,
         is_display_code:isDisplayCode,
-        reg_member_id:1,
+        reg_member_id:req.session.passport.user.admin_member_id,
         reg_date:Date.now()
     };
 
@@ -183,7 +183,7 @@ router.post('/create',simpleUpload.single('file'),isLoggedIn,async(req,res)=>{
             file_path:filePath,
             file_type:fileType,
             reg_date:Date.now(),
-            reg_member_id:1
+            reg_member_id:req.session.passport.user.admin_member_id
         }
     
         await db.ArticleFile.create(file);
@@ -198,7 +198,7 @@ router.post('/create',simpleUpload.single('file'),isLoggedIn,async(req,res)=>{
 
 //신규 게시글 사용자 등록정보 처리 요청 및 응답 라우팅메소드:S3에 파일업로드
 //upload.getUpload('upload/').fields([{ name: 'client파일태그명', maxCount: 3 }])
-router.post('/creates3',upload.getUpload('/').fields([{ name: 'file', maxCount: 1 }]),async(req,res)=>{
+router.post('/creates3',upload.getUpload('/').fields([{ name: 'file', maxCount: 1 }]),isLoggedIn,async(req,res)=>{
 
     //step1: 사용자가 입력한 게시글 등록 데이터 추출
     var boardTypeCode = req.body.boardTypeCode;
@@ -313,7 +313,7 @@ router.post('/modify/:aid',isLoggedIn,async(req,res)=>{
             article_type_code:articleTypeCode,
             is_display_code: isDisplayCode,
             ip_address:"111.222.222.222",
-            edit_member_id:1,
+            edit_member_id:req.session.passport.user.admin_member_id,
             edit_date:Date.now()
         };
 
