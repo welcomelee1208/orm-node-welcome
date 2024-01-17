@@ -4,7 +4,6 @@ var db = require('../models/index')
 var bcrypt = require('bcryptjs')
 var AES = require('mysql-aes');
 var jwt = require("jsonwebtoken")
-var { tokenAuthCheck } = require("./apiMiddleware.js");
 
 
 //entry
@@ -130,7 +129,7 @@ router.post('/login', async (req, res, next) => {
     res.json(apiResult);
 });
 // 로그인후 개인정보 프로필 정보조회 라우팅 메소드.
-router.get('/profile',tokenAuthCheck,async(req,res,next)=>{
+router.get('/profile',async(req,res,next)=>{
     var apiResult = {
         code: 400,
         data: null,
@@ -140,30 +139,11 @@ router.get('/profile',tokenAuthCheck,async(req,res,next)=>{
         //step1 . 현재 프로필 api를 호출하는 사용자 요청의 httpHeader 영역에서 authorization내 jwt토큰값 존재여부확인
         const token = req.headers.authorization.split('Bearer ')[1];
         console.log("req헤더에 저장된 jwt값 추출하기",token)
-        var tokenJsonData = await jwt.verify(token,process.env.JWT_SECRET)
-        var loginMemberId= tokenJsonData.member_id
-        var dbMember =  await db.Member.findOne({
-            where: { member_id:loginMemberId},
-            attributes:[
-                "email",
-                "name",
-                "profile_img_path",
-                "telephone",
-                "member_password",
-                "birth_date"
-                
-            ],
-        })
-        dbMember.telephone = AES.decrypt(dbmember.telephone,process.env.MYSQL_AES_KEY)
-        apiResult.code =200
-        apiResult.data = dbMember
-        apiResult.msg="good"
-
     }catch(err){
         console.log("프로필정보 로딩 오류", error.message);  
         apiResult.code = 500;
         apiResult.data = null;
-        apiResult.msg = "bad";
+        apiResult.msg = error.message;
     }
     res.json()
 })
