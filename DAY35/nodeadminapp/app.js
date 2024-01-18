@@ -14,6 +14,16 @@ require('dotenv').config();
 
 //express기반 서버세션 관리 팩키지 참조하기 
 var session = require('express-session');
+//분산 서버 기반 세션 관리를 위한 Redis 환경설정 1
+const redis = require("redis");
+let RedisStore = require("connect-redis")(session);
+//세션 저장을위한 레디스 서버연결정보 설정하기
+let redisClient = redis.createClient({
+  host: "127.0.0.1",
+  port: 6379,
+  db: 0,
+  password: "test12345",
+  });
 
 //패스포트 패키지 참조
 const passport = require('passport')
@@ -48,18 +58,34 @@ sequelize.sync();
 passportConfig(passport)
 
 //express-session기반 서버세션 설정 구성하기 
+// app.use(
+//   session({
+//     resave: false,//매번 세션 강제 저장
+//     saveUninitialized: true, 
+//     secret: process.env.COOKIE_SECRET, //암호화할떄 사용하는 salt값
+//     cookie: {
+//       httpOnly: true,
+//       secure: false,
+//       maxAge:1000 * 60 * 20 //20분동안 서버세션을 유지하겠다.(1000은 1초)
+//     },
+//   }),
+// );
+//
 app.use(
   session({
-    resave: false,//매번 세션 강제 저장
-    saveUninitialized: true, 
-    secret: process.env.COOKIE_SECRET, //암호화할떄 사용하는 salt값
-    cookie: {
-      httpOnly: true,
-      secure: false,
-      maxAge:1000 * 60 * 20 //20분동안 서버세션을 유지하겠다.(1000은 1초)
-    },
-  }),
-);
+  store: new RedisStore({ client: redisClient }),
+  saveUninitialized: true,
+  secret: "moiin",
+  resave: false,
+  cookie: {
+  httpOnly: true,
+  secure: false,
+  //maxAge: 3600000, //세션유지 시간설정 : 1시간
+  },
+  ttl : 250, //Redis DB에서 세션정보가 사라지게 할지에 대한 만료시간설정
+  token: "moiin"
+  })
+  );
 //패스포트-세션 초기화 : express session 뒤에 설정
 app.use(passport.initialize());
 app.use(passport.session());

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>모든 사용자간 채팅하기</title>
+</head>
+<body>
+    <h1> 서버 소켓과 연결된모든 사용자간 채팅하기</h1>
+    대화명:<input type="text" id ="nickName"><br/>
+    메세지:<input type ="text" id = "message"><br/>
+    <button id ="btnSend">전송</button>
+    
+    <hr>
+    <ul id="chathistory">
+
+
+    </ul>
+    <!-- jquery cdn 라이브러리 참조  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- socket.io javascript library 참조  -->
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <!-- socket.js JQuery 기반 클라이언트 cdn 아이브러리 참조 -->
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" crossorigin="anonymous"></script>
+<script>
+
+    //step1: socket.io.js에서 제공하는 io객체를 이용해 서버 소켓과 연결한다.
+    //io.connect('서버소켓 연결 경로주소:http://localhost:3000')
+    //io.connect()메소드를 통해 현재 웹브라우저 웹페이지와 서버소켓과 연결을 시도합니ㅏㄷ.
+    var socket = io.connect('http://localhost:3000/') 
+
+    //전송버튼이 클릭되면 메시지를 서버소켓으로 전송한다.
+    $("#btnSend").click(function(){
+        //step1: 닉네임값 추출
+        var nickName = $("#nickName").val()
+        //step2사용자 입력값 추출
+        var message =$("#message").val()
+        
+        var msgData = `${nickName}:${message}`
+
+        //step3 현재 연결된 서버소켓으로 메세지를 전송합니다,
+        //socket.emit('서버소켓 메세지 이벤트수신기명',전달할 데이터)
+        //socket.emit('broadcast',msgData)
+        socket.emit('test',msgData)
+    })
+
+
+    //서버 소켓에서 보내주는 클라이언트 이벤트 수신기들 기능정의
+    socket.on('receiveAll',function(msgData){
+        console.log("서버소켓 에서 보내준 메세지 출력:",msgData)
+        // 도착한 메세지 문자열을 ul태그에li 태그형식으로 추가한다.
+        $("#chathistory").append(`<li>${msgData}</li>`)
+    })
+       //서버 소켓에서 보내주는 클라이언트 이벤트 수신기들 기능정의
+        socket.on('receiveTest',function(msgData){
+        console.log("서버소켓 에서 보내준 메세지 출력:",msgData)
+        // 도착한 메세지 문자열을 ul태그에li 태그형식으로 추가한다.
+$("#chathistory").append(`<li>${msgData}</li>`)
+    })
+
+
+
+</script>
+
+</body>
+</html>
