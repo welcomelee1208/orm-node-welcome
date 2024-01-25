@@ -56,8 +56,8 @@ body {
 	align-items: center;
 	justify-content: center;
 	.spinner-border {
-		width: 5rem;
-		height: 5rem;
+		width: 3rem;
+		height: 3rem;
 		color: $primary-bg;
 		border-width: .5em;
 	}
@@ -72,10 +72,10 @@ body {
 ************************************************/
 
 a {
-	color: $font-color;
+	color: $black;
 	&:hover {
 		text-decoration: none;
-		color: $font-color;
+		color: $primary-bg;
 	}
 }
 
@@ -134,21 +134,6 @@ h6 {
 p {
 	margin-bottom: .2rem;
 	line-height: 180%;
-}
-
-
-// Text Colors *************************
-.text-success {
-	color: $green !important;
-}
-.text-danger {
-	color: $red !important;
-}
-.text-warning {
-	color: $yellow !important;
-}
-.text-info {
-	color: $blue !important;
 }
 
 
@@ -248,6 +233,7 @@ p {
 			width: 375px;
 			padding: 10px 0;
 			background: $tab-content-bg;
+			border-right: 2px solid $border-bg-dark;
 			> .tab-pane {
 				.tab-pane-header {
 					margin: 9px 20px 15px 20px;
@@ -342,6 +328,7 @@ p {
 	}
 }
 
+
 @media screen and (max-width: 768px) {
 	// Page Wrapper *************************
 	.page-wrapper {
@@ -391,7 +378,7 @@ p {
 	.form-control {
 		border: 2px solid $form-border;
 		@include roundedCorners(5);
-		background: $form-bg;
+		background: $white;
 		height: 40px;
 		padding: .375rem 0 .375rem 3rem;			
 		&:focus, &:hover {
@@ -425,7 +412,8 @@ p {
 					min-height: 110px;
 					display: flex;
 					flex-direction: column;
-					background: $chat-card-bg;
+					background: $white;
+					box-shadow: 5px 5px 10px $card-shadow;
 					> .user-avatar {
 						position: relative;
 						margin: -30px 0 15px 0;
@@ -466,30 +454,37 @@ p {
 							display: flex;
 							align-items: center;
 							justify-content: center;
-							color: $white;
 							&.blue {
-								background: $blue;
+								background: $light-blue;
+								color: $dark-blue;
 							}
 							&.yellow {
-								background: $yellow;
+								background: $light-yellow;
+								color: $dark-yellow;
 							}
 							&.red {
-								background: $red;
+								background: $light-red;
+								color: $dark-red;
 							}
 							&.green {
-								background: $green;
+								background: $light-green;
+								color: $dark-green;
 							}
 							&.pink {
-								background: $pink;
+								background: $light-pink;
+								color: $dark-pink;
 							}
 							&.orange {
-								background: $orange;
+								background: $light-orange;
+								color: $dark-orange;
 							}
 							&.violet {
-								background: $violet;
+								background: $light-violet;
+								color: $dark-violet;
 							}
 							&.brown {
-								background: $brown;
+								background: $light-brown;
+								color: $dark-brown;
 							}
 						}
 					}
@@ -513,7 +508,7 @@ p {
 							width: 30px;
 							height: 30px;
 							@include roundedCorners(4);
-							background: $tab-content-bg;
+							background: $white-pearl;
 							display: flex;
 							align-items: center;
 							justify-content: center;
@@ -536,7 +531,7 @@ p {
 						}
 					}
 					&:hover {
-						background: $chat-card-hover-bg;
+						background: $blue;
 						color: $white;
 						> h5 {
 							color: $white;
@@ -601,30 +596,37 @@ p {
 							display: flex;
 							align-items: center;
 							justify-content: center;
-							color: $white;
 							&.blue {
-								background: $blue;
+								background: $light-blue;
+								color: $dark-blue;
 							}
 							&.yellow {
-								background: $yellow;
+								background: $light-yellow;
+								color: $dark-yellow;
 							}
 							&.red {
-								background: $red;
+								background: $light-red;
+								color: $dark-red;
 							}
 							&.green {
-								background: $green;
+								background: $light-green;
+								color: $dark-green;
 							}
 							&.pink {
-								background: $pink;
+								background: $light-pink;
+								color: $dark-pink;
 							}
 							&.orange {
-								background: $orange;
+								background: $light-orange;
+								color: $dark-orange;
 							}
 							&.violet {
-								background: $violet;
+								background: $light-violet;
+								color: $dark-violet;
 							}
 							&.brown {
-								background: $brown;
+								background: $light-brown;
+								color: $dark-brown;
 							}
 						}
 					}
@@ -720,7 +722,7 @@ p {
 	justify-content: space-between;
 	flex-direction: row;
 	padding: 1rem 1.5rem;
-	border-bottom: 2px solid $border-bg-dark;	
+	border-bottom: 2px solid $border-bg-light;	
 	.active-user-info {
 		display: flex;
 		align-items: center;
@@ -740,30 +742,37 @@ p {
 			align-items: center;
 			justify-content: center;
 			margin: 0 15px 0 0;
-			color: $white;
 			&.blue {
-				background: $blue;
+				background: $light-blue;
+				color: $dark-blue;
 			}
 			&.yellow {
-				background: $yellow;
+				background: $light-yellow;
+				color: $dark-yellow;
 			}
 			&.red {
-				background: $red;
+				background: $light-red;
+				color: $dark-red;
 			}
 			&.green {
-				background: $green;
+				background: $light-green;
+				color: $dark-green;
 			}
 			&.pink {
-				background: $pink;
+				background: $light-pink;
+				color: $dark-pink;
 			}
 			&.orange {
-				background: $orange;
+				background: $light-orange;
+				color: $dark-orange;
 			}
 			&.violet {
-				background: $violet;
+				background: $light-violet;
+				color: $dark-violet;
 			}
 			&.brown {
-				background: $brown;
+				background: $light-brown;
+				color: $dark-brown;
 			}
 		}
 		> .avatar-info {
@@ -790,14 +799,14 @@ p {
 			justify-content: center;
 			align-items: center;
 			@include roundedCorners(50);
-			background: $sidebar-active-bg;
+			box-shadow: 5px 5px 10px $card-shadow;
 			margin: 0 0 0 10px;
 			img {
 				width: 18px;
 				height: 18px;
 			}
 			&:hover {
-				background: $sidebar-hover-bg;
+				box-shadow: 5px 5px 20px darken($card-shadow, 10%);
 				i {
 					color: $white;
 				}
@@ -858,14 +867,15 @@ p {
 				padding: 0;
 				font-size: .75rem;
 				margin: 5px 0 0 0;
+				color: $font-color-light;
 				&.read {
 					> span {
-						color: $dark-green;
+						color: $green;
 					}	
 				}
 				> span {
 					font-size: 16px;
-					color: rgba(255, 255, 255, 0.3);
+					color: $font-color-light;
 				}
 			}
 			.chat-name {
@@ -879,8 +889,8 @@ p {
 				flex-direction: column;
 				align-items: flex-start;
 				.chat-text {
-					padding: .7rem 1rem;
-					background: $primary-dark;
+					padding: .7rem 1rem;					
+					background: $primary-light;
 					@include roundedCorners(3);
 					line-height: 150%;
 					align-self: flex-start;
@@ -900,7 +910,7 @@ p {
 							top: 14px;
 							left: -16px;
 							border: 8px solid;
-							border-color: transparent $primary-dark $primary-dark transparent;
+							border-color: transparent $primary-light $primary-light transparent;
 						}
 					}
 					.chat-img-thumbnail {
@@ -954,7 +964,7 @@ p {
 				a.shared-files {
 					display: flex;
 					align-items: center;
-					background: $chat-card-bg;
+					background: $white;
 					@include roundedCorners(3);
 					padding: 7px 15px;
 					.attached-folder {
@@ -969,6 +979,9 @@ p {
 						font-size: .75rem;
 						font-weight: 600;
 					}
+					&:hover {
+						color: $black;
+					}
 				}
 			}			
 			&.chat-right {
@@ -980,11 +993,11 @@ p {
 				.chat-text-wrapper {
 					> .chat-text {
 						text-align: right;
-						background: $primary-light;
+						background: $light-color;
 						align-self: flex-end;
 						&:before {
 							right: -16px;
-							border-color: transparent transparent $primary-light $primary-light;
+							border-color: transparent transparent $light-color $light-color;
 							left: inherit;
 						}
 					}
@@ -1005,7 +1018,7 @@ p {
 					display: block;
 					flex: 1;
 					height: 1px;
-					background-color: $border-bg-dark;
+					background-color: $border-bg;
 					margin-right: 10px;
 				}
 				&:after {
@@ -1013,7 +1026,7 @@ p {
 					display: block;
 					flex: 1;
 					height: 1px;
-					background-color: $border-bg-dark;
+					background-color: $border-bg;
 					margin-left: 10px;
 				}
 			}
@@ -1082,7 +1095,8 @@ p {
 			.action-icon-popup {
 				padding: 5px;
 				margin-bottom: 10px;
-				background: $primary-dark;
+				background: $white;
+				border: 1px solid $border-bg;
 				display: none;
 				position: absolute;
 				bottom: 32px;
@@ -1098,7 +1112,9 @@ p {
 					width: 12px;
 					height: 12px;
 					transform: rotate(45deg);
-					background: $primary-dark;
+					background: $white;
+					border-bottom: 1px solid $border-bg;
+					border-right: 1px solid $border-bg;
 				}
 				.emoji-list {
 					display: flex;
@@ -1123,7 +1139,7 @@ p {
 				}
 			}
 			&:hover {
-				background: $sidebar-hover-bg;
+				background: $light-blue;
 				@include roundedCorners(4);
 				.action-icon-tooltip {
 					display: block;
@@ -1289,10 +1305,11 @@ p {
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-		background: $chat-card-bg;
+		background: $white;
+		box-shadow: 5px 5px 10px $card-shadow;
 		@include transition(all, 0.5s, ease);
 		&:hover {
-			background: $chat-card-hover-bg;
+			box-shadow: 10px 10px 20px $card-shadow;
 		}
 		> h5 {
 			font-size: 1.1rem;
@@ -1343,7 +1360,7 @@ p {
 }
 .sidebar-docs-container {
 	@include roundedCorners(4);
-	background: $page-content-bg;
+	background: $white;
 	padding: 1rem;
 	margin: 0 20px;
 	a.attached-file {
@@ -1371,7 +1388,7 @@ p {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			background: rgba(255, 255, 255, 0.1);
+			background: rgba(255, 255, 255, 0.5);
 			@include roundedCorners(50);
 			margin-left: auto;
 			> img {
@@ -1379,11 +1396,11 @@ p {
 				height: 14px;
 			}
 			&:hover {
-				background: rgba(255, 255, 255, 0.2);
+				background: rgba(255, 255, 255, 0.8);
 			}
 		}
 		&:hover {
-			color: $white;
+			color: $black;
 		}
 	}
 }
@@ -1402,9 +1419,10 @@ p {
 .account-settings-block {
 	margin: 0 20px 1rem 20px;
 	padding: 15px 20px;
-	background: $page-content-bg;
+	background: $white;
 	@include roundedCorners(4);
 	border: 0;
+	box-shadow: 5px 5px 10px $card-shadow;
 	.account-settings-body {
 		padding: 2rem 0 0 0;
 	}
@@ -1418,7 +1436,6 @@ p {
 			text-align: left;
 			display: flex;
 			align-items: center;
-			color: $font-color;
 			&:focus {
 				box-shadow: none;
 			}
@@ -1453,8 +1470,8 @@ p {
 	flex-direction: row;
 	padding: 1rem;
 	margin: 0 0 1.5rem 0;
-	background: $primary-light;
-	@include roundedCorners(4);
+	background: $white-pearl;
+	@include roundedCorners(2);
 	.upload-profile-image {
 		margin: 0 .7rem 0 0;
 		> img {
@@ -1474,23 +1491,17 @@ p {
 	min-height: 40px;
 	.custom-file-input {
 		padding: 10px 12px;
-		min-height: 40px;	
-	}
-	.custom-file-input:focus~.custom-file-label {
-		box-shadow: none;
-		outline-color: $secondary-color !important;
+		min-height: 40px;
 	}
 	.custom-file-label {
 		border: 1px solid $form-border;
 		min-height: 40px;
 		line-height: 26px;
 		color: $font-color;
-		background: $form-bg;
 		@include roundedCorners(2);
 		&::after {
 			min-height: 38px;
-			background: $primary-bg;
-			color: $primary-color;
+			background: $light-bg;
     	padding: 10px 12px;
     	@include roundedCorners(2);
 		}
@@ -1513,7 +1524,7 @@ p {
 		position: absolute;
 		box-sizing: border-box;
 		color: $primary-bg;
-		background: $page-content-bg;
+		background: $white;
 		@include roundedCorners(30);
 		font-size: .7rem;
 		font-weight: 600;
@@ -1525,18 +1536,16 @@ p {
 	}
 	input, select, textarea {
 		border: 1px solid $form-border;
-		background: $page-content-bg;
 		padding: 10px 12px;
-		color: $font-color;
 		@include roundedCorners(2);
 		width: 100%;
 		min-height: 36px;
 	}
 	input:hover, textarea:hover {
-		border: 1px solid $form-border-hover;
+		border: 1px solid $primary-bg;
 	}
 	input:focus, textarea:focus {
-		outline: 2px solid $primary-bg;
+		outline-color: $primary-bg;
 	}
 }
 .field-wrapper-group {
@@ -1562,7 +1571,6 @@ p {
 	.custom-switch-label {
 		font-size: .8rem;
 		font-weight: 400;
-		color: $font-color-light;
 	}
 	.custom-control-input {
 		left: initial;
@@ -1571,17 +1579,14 @@ p {
 	.custom-control-label::before {
     left: -1.75rem;
     top: 0;
-    background: $page-content-bg;
-    border: 0;
   }
   .custom-control-label::after {
   	top: 2px;
     left: calc(-1.75rem + 2px);
-    background: $toggle-bg;
   }
   .custom-control-input:checked~.custom-control-label::before {
+  	border-color: $green;
     background-color: $green;
-    border: 0;
   }
   .custom-control-input:focus~.custom-control-label::before {
   	box-shadow: 0 0 0 0.2rem rgba(4, 165, 61, .25);
@@ -1593,9 +1598,10 @@ p {
 .group-container {
 	margin: 0 20px 1.5rem 20px;
 	padding: 15px 20px;
-	background: $page-content-bg;
+	background: $white;
 	@include roundedCorners(4);
 	border: 0;
+	box-shadow: 5px 5px 10px $card-shadow;
 	> h5 {
 		font-weight: 600;
 		font-size: 1rem;
@@ -1603,7 +1609,7 @@ p {
 	}
 	.create-group {
 		padding: 1rem;
-		background: $primary-light;
+		background: $white-pearl;
 		@include roundedCorners(2);
 	}
 }
@@ -1618,7 +1624,8 @@ p {
 				@include roundedCorners(4);
 				display: flex;
 				flex-direction: column;
-				background: $page-content-bg;
+				background: $white;
+				box-shadow: 5px 5px 10px $card-shadow;
 				position: relative;
 				> .group-avatar {
 					position: relative;
@@ -1655,8 +1662,8 @@ p {
 						top: 15px;
 						right: 0;
 						img {
-							width: 18px;
-							height: 18px;
+							width: 21px;
+							height: 21px;
 						}
 					}
 					.delete-group {
@@ -1664,13 +1671,13 @@ p {
 						top: 45px;
 						right: 0;
 						img {
-							width: 18px;
-							height: 18px;
+							width: 21px;
+							height: 21px;
 						}
 					}
 				}
 				&:hover {
-					background: darken($primary-light, 5%);
+					box-shadow: 8px 8px 20px $card-shadow;
 				}
 			}
 		}
@@ -1804,30 +1811,37 @@ p {
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						color: $white;
 						&.blue {
-							background: $blue;
+							background: $light-blue;
+							color: $dark-blue;
 						}
 						&.yellow {
-							background: $yellow;
+							background: $light-yellow;
+							color: $dark-yellow;
 						}
 						&.red {
-							background: $red;
+							background: $light-red;
+							color: $dark-red;
 						}
 						&.green {
-							background: $green;
+							background: $light-green;
+							color: $dark-green;
 						}
 						&.pink {
-							background: $pink;
+							background: $light-pink;
+							color: $dark-pink;
 						}
 						&.orange {
-							background: $orange;
+							background: $light-orange;
+							color: $dark-orange;
 						}
 						&.violet {
-							background: $violet;
+							background: $light-violet;
+							color: $dark-violet;
 						}
 						&.brown {
-							background: $brown;
+							background: $light-brown;
+							color: $dark-brown;
 						}
 					}
 				}
@@ -1906,9 +1920,10 @@ p {
 .invite-friend-block {
 	margin: 1.5rem 20px 1rem 20px;
 	padding: 15px;
-	background: $page-content-bg;
+	background: $white;
 	@include roundedCorners(4);
 	border: 0;
+	box-shadow: 5px 5px 10px $card-shadow;
 }
 
 
@@ -1987,7 +2002,6 @@ p {
 		align-items: center;
 		justify-content: center;
 		position: relative;
-		background: $login-content-bg;
 	}
 }
 @media screen and (max-width: 992px) {
@@ -1999,8 +2013,8 @@ p {
 }
 .login-screen {
 	position: relative;
-	background: $page-content-bg;
-	border: 1px solid $border-bg-dark;
+	background: $white;
+	border: 1px solid $border-bg;
 	@include roundedCorners(20);
 	box-shadow: 0 30px 15px -20px rgba(0, 0, 0, 0.2);
 	min-width: 320px;
@@ -2018,7 +2032,7 @@ p {
 		padding: 1.5rem 1.5rem 0 1.5rem;
 	}
 	.login-footer {
-		border-top: 1px solid $border-bg-dark;
+		border-top: 1px solid $border-bg;
 		padding: 1rem 1.5rem 1rem 1.5rem;
 	}
 	// Actions
@@ -2041,7 +2055,7 @@ p {
 		text-decoration: none;
 		margin: 0 auto;
 		display: inline-block;
-		color: $font-color-light;
+		color: lighten($black, 60%);
 		a {
 			margin-left: 5px;
 			display: inline-block;
@@ -2097,15 +2111,11 @@ button {
 	border: 1px solid transparent;
 	font-size: .825rem;
 	font-weight: 700;
-	color: $white;
 	padding: .594rem .75rem;
 	i {
 		vertical-align: middle;
 		font-size: 1rem;
 		margin: 0 3px 0 0;
-	}
-	&:hover {
-		color: $white;
 	}
 }
 
@@ -2122,7 +2132,7 @@ button {
 		border-color: darken($primary-bg, 5%);
 	}
 	&:focus, &.focus {
-		box-shadow: 0 0 0 0.2rem rgba(96, 194, 100, .2);
+		box-shadow: 0 0 0 0.2rem rgb(228, 240, 255);
 		background-color: darken($primary-bg, 5%);
 		border-color: darken($primary-bg, 5%);
 	}
@@ -2146,11 +2156,11 @@ button {
 }
 .btn-primary:not(:disabled):not(.disabled) {
 	&:active:focus, &.active:focus {
-		box-shadow: 0 0 0 0.2rem rgba(96, 194, 100, .2);
+		box-shadow: 0 0 0 0.2rem rgb(228, 240, 255);
 	}
 }
 .show > .btn-primary.dropdown-toggle:focus {
-	box-shadow: 0 0 0 0.2rem rgba(96, 194, 100, .2);
+	box-shadow: 0 0 0 0.2rem rgb(228, 240, 255);
 }
 
 
@@ -2211,7 +2221,7 @@ button {
 		border-color: darken($red, 5%);
 	}
 	&:focus, &.focus {
-		box-shadow: 0 0 0 0.2rem rgba(248, 89, 72, 0.4);
+		box-shadow: 0 0 0 0.2rem rgb(228, 240, 255);
 		background-color: darken($red, 5%);
 		border-color: darken($red, 5%);
 	}
@@ -2235,11 +2245,11 @@ button {
 }
 .btn-danger:not(:disabled):not(.disabled) {
 	&:active:focus, &.active:focus {
-		box-shadow: 0 0 0 0.2rem rgba(248, 89, 72, 0.4);
+		box-shadow: 0 0 0 0.2rem rgb(228, 240, 255);
 	}
 }
 .show > .btn-danger.dropdown-toggle:focus {
-	box-shadow: 0 0 0 0.2rem rgba(248, 89, 72, 0.4);
+	box-shadow: 0 0 0 0.2rem rgb(228, 240, 255);
 }
 
 
@@ -2255,7 +2265,7 @@ button {
 		border-color: darken($green, 5%);
 	}
 	&:focus, &.focus {
-		box-shadow: 0 0 0 0.2rem rgba(114, 201, 118, 0.4);
+		box-shadow: 0 0 0 0.2rem rgb(228, 240, 255);
 		background-color: darken($green, 5%);
 		border-color: darken($green, 5%);
 	}
@@ -2279,32 +2289,16 @@ button {
 }
 .btn-success:not(:disabled):not(.disabled) {
 	&:active:focus, &.active:focus {
-		box-shadow: 0 0 0 0.2rem rgba(114, 201, 118, 0.4);
+		box-shadow: 0 0 0 0.2rem rgb(228, 240, 255);
 	}
 }
 .show > .btn-success.dropdown-toggle:focus {
-	box-shadow: 0 0 0 0.2rem rgba(114, 201, 118, 0.4);
+	box-shadow: 0 0 0 0.2rem rgb(228, 240, 255);
 }
 
 
 
 // Forms *************************
-::placeholder {
-	color: $font-color-light;
-}
-::-webkit-input-placeholder {
-  color: $font-color-light;
-}
-::-moz-placeholder {
-	color: $font-color-light;
-}
-:-ms-input-placeholder {
-  color: $font-color-light;
-}
-:-moz-placeholder {
-  color: $font-color-light;
-}
-
 .form-group {
 	margin: 0 0 1rem 0;
 }
@@ -2312,17 +2306,13 @@ button {
 	border: 1px solid $form-border;
 	@include roundedCorners(2);
 	font-size: .825rem;
-	background: $form-bg;
-	color: $font-color;
 	&:hover {
-		border: 1px solid $form-border-hover;
+		border: 1px solid $primary-bg;
 	}
 	&:focus {
 		border-color: $primary-bg;
-		background: $form-bg;
-		color: $font-color;
 		box-shadow: none;
-		outline: none !important;
+		outline: auto !important;
 		outline-color: $primary-bg !important;
 	}
 }
@@ -2342,15 +2332,14 @@ label {
 // List Group *************************
 .list-group {
 	margin-bottom: 2rem;
-	background: $primary-light;
+	background: $white;
 	border: 0;
 	@include roundedCorners(2);
 	margin-bottom: 1rem;
 	.list-group-item {
-		background: $primary-light;
 		font-size: .825rem;
 		padding: .5rem .75rem;
-		border: 1px solid $list-border;
+		border: 1px solid $border-bg;
 		&:first-child {
 			@include roundedCornersAll(2px, 2px, 0, 0);
 		}
@@ -2368,7 +2357,6 @@ label {
 .modal {
 	text-align: left;	
 	.modal-content {
-		background: $page-content-bg;
 		@include roundedCorners(20);
 		border: 0;
 	}
@@ -2379,7 +2367,7 @@ label {
 		}
 	}
 	.modal-header {
-		background: $primary-light;
+		background: $primary-bg;
 		color: $white;
 		border: 0;
 		@include roundedCornersAll(20px, 20px, 0, 0);

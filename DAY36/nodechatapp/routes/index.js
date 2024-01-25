@@ -42,10 +42,10 @@ router.post('/entry', async(req, res, next)=> {
       name:name,
       profile_img_path:"",
       telephone:"",
-      entry_type_code:1,
+      entry_type_code:0,
       use_state_code:1,
       reg_date:Date.now(),
-      reg_member_id:1
+      reg_member_id:0
     };
 
     await db.Member.create(member);
@@ -105,6 +105,68 @@ router.get('/find', function(req, res, next) {
 router.post('/find', function(req, res, next) {
   res.render('find.ejs',{email:"",result:"Ok"});
 });
+
+
+
+
+/* JWT토큰 생성 웹페이지 요청과 응답*/
+router.get('/maketoken', async(req, res, next)=> {
+  var token = "";
+  res.render('makektoken.ejs',{layout:false,token});
+});
+
+/* JWT토큰 생성하고 토큰확인하기 */
+router.post('/maketoken', async(req, res, next)=>{
+  var token = "";
+
+  //STEP1: JWT토큰에 담을 JSON 데이터 구조 및 데이터 바인딩
+  //JWT토큰영역내 Payload영역에 담깁니다.
+  var jsonTokenData = {
+    userid: req.body.userid,
+    email:req.body.email,
+    usertype:req.body.usertype,
+    name:req.body.name,
+    telephone:req.body.telephone
+  }; 
+
+
+  //STEP2: JSON데이터를 JWT토큰으로 생성합니다.
+  //jwt.sign(토큰에 담을 JSON데이터,토큰인증키값,옵션{expiresIn:'24h'파기일지정,issuer:'msoftware'만든회사});
+  //파기일시 지정포맷 : // 30s,60m,24h,200d ,토큰생성일을 기준으로 해서 해당기간만큼만 유효함.
+  token = await jwt.sign(jsonTokenData,process.env.JWT_SECRET,{expiresIn:'24h',issuer:'msoftware'});
+
+  res.render('makektoken.ejs',{layout:false,token});
+});
+
+
+/* 
+-JWT토큰값을 수신하여 토큰값을 해석하기
+-http://localhost:3000/readtoken?token=토큰값 
+*/
+router.get('/readtoken', async(req, res, next)=> {
+  
+  var token = req.query.token;
+  var tokenJsonData ={};
+
+  //토큰의 유효성을 검사하고  JOSN데이터를 추출한다.
+  //await jwt.verify(JWT토큰문자열,해당토큰생성시 사용한 JWT인증키값);
+
+  try{
+    tokenJsonData = await jwt.verify(token,process.env.JWT_SECRET);
+  }catch(err){
+    token="유효하지 않은 토큰입니다.";
+    tokenJsonData = {
+      userid: "",
+      email:"",
+      usertype:"",
+      name:"",
+      telephone:"",
+    }; 
+  }
+
+  res.render('readtoken.ejs',{layout:false,token,tokenJsonData});
+});
+
 
 
 

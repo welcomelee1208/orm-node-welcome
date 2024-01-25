@@ -1,88 +1,88 @@
-    module.exports = function (sequelize, DataTypes) {
-        return sequelize.define(
-        "member",
-        {
-            member_id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false,
-            comment: "회원 ID",
-            },
-            email: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            comment: "회원 이메일",
-            },
-            member_password: {
-            type: DataTypes.STRING(500),
-            allowNull: false,
-            comment: "회원 비밀번호",
-            },
-            name: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            comment: "회원 이름",
-            },
-            profile_img_path: {
-            type: DataTypes.STRING(300),
-            allowNull: true,
-            comment: "프로필 이미지 경로",
-            },
-            telephone: {
-            type: DataTypes.STRING(500),
-            allowNull: false,
-            comment: "회원 전화번호",
-            },
-            entry_type_code: {
-            type: DataTypes.TINYINT,
-            allowNull: true,
-            comment: "가입 유형 코드",
-            },
-            use_state_code: {
-            type: DataTypes.TINYINT,
-            allowNull: true,
-            comment: "사용 상태 코드",
-            },
-            birth_date: {
-            type: DataTypes.STRING(6),
-            allowNull: true,
-            comment: "회원 생년월일",
-            },
-            reg_date: {
-            type: DataTypes.DATE,
-            allowNull: true,
-            comment: "등록 일시",
-            },
-            reg_member_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            comment: "등록 회원 ID",
-            },
-            edit_date: {
-            type: DataTypes.DATE,
-            allowNull: true,
-            comment: "수정 일시",
-            },
-            edit_member_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            comment: "수정 회원 ID",
-            },
+module.exports = function (sequelize, DataTypes) {
+    return sequelize.define(
+      'member',
+      {
+          member_id: {
+          type: DataTypes.INTEGER,
+          autoIncrement: true,
+          primaryKey: true,
+          allowNull: false,
+          comment: '회원고유번호',
         },
-        {
-            sequelize,
-            tableName: "member",
-            timestamps: false,
-            comment: "회원 테이블",
-            indexes: [
-            {
-                name: "PRIMARY",
-                unique: true,
-                using: "BTREE",
-                fields: ["member_id"],
-            },
-            ],
+        email: {
+          type: DataTypes.STRING(100),
+          allowNull: false,
+          comment: '사용자메일주소',
+        },
+        member_password: {
+          type: DataTypes.STRING(500),
+          allowNull: false,
+          comment: '사용자 난독화된 해시암호문자열',
+        },
+        name: {
+          type: DataTypes.STRING(100),
+          allowNull: false,
+          comment: '회원명',
+        },
+        profile_img_path: {
+          type: DataTypes.STRING(300),
+          allowNull: true,
+          comment: '회원프로파일 이미지경로',
+        },
+        telephone: {
+          type: DataTypes.STRING(500),
+          allowNull: true,
+          comment: '전화번호-AES 양방향암호화 적용',
+        },
+        entry_type_code: {
+          type: DataTypes.TINYINT,
+          allowNull: false,
+          comment: '가입유형코드 0:직접가입 1:페이스북SNS',
+        },
+        use_state_code: {
+          type: DataTypes.TINYINT,
+          allowNull: false,
+          comment: '이용상태 0:허용대기 1:사용중 2:탈퇴처리',
+       },
+       birth_date: {
+        type: DataTypes.STRING(6),
+        allowNull: true,
+        comment: '생년월일-740523',
+       },
+       reg_date: {
+          type: DataTypes.DATE,
+          allowNull: false,
+          comment: '등록일시',
+        },
+        reg_member_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            comment: '등록자고유번호',
+        },
+        edit_date: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            comment: '수정일시',
+        },
+        edit_member_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            comment: '수정자고유번호',
         }
-        );
-    };
+      },
+      {
+        sequelize,
+        tableName: 'member',
+        timestamps: false,
+        comment: '회원정보',
+        indexes: [
+          {
+            name: 'PRIMARY',
+            unique: true,
+            using: 'BTREE',
+            fields: [{ name: 'member_id' }],
+          },
+        ],
+      }
+     );
+  };

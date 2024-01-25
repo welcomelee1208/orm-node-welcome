@@ -1,0 +1,35 @@
+<html>
+<body>
+<h1>모든 연결사용자간 채팅</h1>
+채팅 닉네임:<input type="text" id="nickname" value="화녕"><br>
+전송 메시지:<input type="text" id="message" value=""><br>
+<input type="button" id="btnSend" value="전송"><br>
+<hr>
+<ul id="chatHistory">
+</ul>
+<!-- jquery cdn 라이브러리 참조 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- 수정할 곳: 위 주석의 socket.io.js 대신 아래의 CDN 라이브러리를 참조합니다. -->
+	<!-- package.json을 열어 socket.io의 버전을 확인한 후 버전을 수정해도 됩니다. -->
+<script src="https://cdn.socket.io/4.4.1/socket.io.min.js" crossorigin="anonymous"></script>
+
+<script>
+//클라이언트(웹브라우저) 서버 연결 소켓 객체 정의
+var socket = io.connect('http://localhost:3000/');
+//전송버튼 클릭시 사용자 입력메시지를 서버에 특정 이벤트 기능으로 전송한다.
+$("#btnSend").click(function(){
+var msg = $("#message").val();
+var nickName = $("#nickname").val();
+var sendMsg = `${nickName}:${msg}`;
+// 서버 소켓의 broadcast라는 이벤트 수신기로 sendMsg 라는 메세지를 실시간으로 발송
+// socket.emit()메소드는 웹브라우저에서 서버 소켓 모듈로 보낼때 사용
+socket.emit("broadcast",sendMsg);
+});
+// 서버 소켓에서 보낸 데이터를 수신하는 클라이언트 이벤트 수신기(receiveAll) 정의
+socket.on("receiveAll",function(receiveMsg){
+console.log("메시지 수신기-데이터","receiveAll",receiveMsg);
+$("#chatHistory").append(`<li>${receiveMsg}</li>`);
+});
+</script>
+</body>
+</html>

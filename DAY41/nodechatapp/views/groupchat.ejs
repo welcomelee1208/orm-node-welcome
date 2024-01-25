@@ -1,0 +1,55 @@
+<html>
+<body>
+<h1> 그룹채팅 사용자간 채팅</h1>
+채팅방명:<input type="text" id ="channel"value="">
+<input type="button" id="btnEntry" value="입장"><br>
+채팅 닉네임:<input type="text" id="nickname" value=""><br>
+전송 메시지:<input type="text" id="message" value=""><br>
+<input type="button" id="btnSend" value="전송"><br>
+<hr>
+<ul id="chatHistory">
+</ul>
+<!-- jquery cdn 라이브러리 참조 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- socket.io javascript library 참조 -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+//클라이언트(웹브라우저) 서버 연결 소켓 객체 정의
+var socket = io.connect('/');
+//입장버튼 클릭시 채팅방 입장처리하기
+$("#btnEntry").click(function(){
+    var channelId=$("#channel").val()
+    var nickName =$("#nickname").val()
+    //서버 소켓의 entry 이벤트 수신기로 채팅방아이디와 닉네임을 전송
+    socket.emit("entry",channelId,nickName)
+
+    // 채팅방 입장완료 메세지 수신기 구현
+    socket.on("entryok",function(msg){
+    console.log("채팅방 입장완료메세지 수신내용:",msg);
+    $("#chatHistory").append(`<li>${msg}</li>`);
+});
+
+})
+//전송버튼 클릭시 사용자 입력메시지를 서버에 특정 이벤트 기능으로 전송한다.
+$("#btnSend").click(function(){
+var channelId=$("#channel").val();// 채팅방 아이디 조회
+var msg = $("#message").val();// 대화명 조회
+var nickName = $("#nickname").val();// 전송메세지 정보조회
+
+
+// 서버 소켓의 broadcast라는 이벤트 수신기로 sendMsg 라는 메세지를 실시간으로 발송
+// socket.emit()메소드는 웹브라우저에서 서버 소켓 모듈로 보낼때 사용
+socket.emit("groupmsg",channelId,nickName,msg);
+});
+// 서버 소켓에서 보낸 현재 입장한 채팅방의 
+// 데이터를 수신하는 클라이언트 이벤트 수신기(receiveAll) 정의
+socket.on("receiveGruopMsg",function(nickName,msg){
+console.log("그룹채팅 수신 메시지 내용",nickName,msg);
+$("#chatHistory").append(`<li>${nickName}:${msg}</li>`);
+});
+
+
+
+</script>
+</body>
+</html>

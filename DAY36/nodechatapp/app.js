@@ -34,15 +34,15 @@ sequelize.sync();
 
 
 //모든 RESTFUL호출에 대한 응답 허락하기-CORS ALL허락..
-app.use(cors())
+//app.use(cors());
 
 //특정 도메인주소만 허락
-// app.use(
-//   cors({
-//     methods: ["GET", "POST", "DELETE", "OPTIONS"],
-//     origin: ["http://localhost:3000","https://naver.com"],
-//   })
-// );
+app.use(
+  cors({
+    methods: ["GET", "POST", "DELETE", "OPTIONS"],
+    origin: ["http://localhost:3005","https://naver.com"],
+  })
+);
 
 
 

@@ -1,4 +1,4 @@
-    module.exports = {
+module.exports = {
     "development":{
         "username": process.env.DB_USER,
         "password": process.env.DB_PASS,
@@ -26,4 +26,4 @@
         "dialect": "mysql",
         "timezone":"+09:00"
     }
-    }
+}

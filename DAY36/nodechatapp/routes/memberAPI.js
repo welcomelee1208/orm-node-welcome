@@ -1,150 +1,250 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../models/index')
-var bcrypt = require('bcryptjs')
+
+var jwt = require('jsonwebtoken');
+
+var bcrypt = require('bcryptjs');
 var AES = require('mysql-aes');
-var jwt = require("jsonwebtoken")
+var db = require('../models/index.js');
+
+//사용자 토큰제공여부 체크 미들웨어 참조하기
+var {tokenAuthChecking} = require('./apiMiddleware.js');
+
+//각종 열거형 상수 참조하기-코드성 데이터 
+var constants = require('../common/enum.js');
 
 
-//entry
-router.post('/entry', async(req, res, next)=>{
 
-    var apiResult = {
-        code: 400,
-        data: null,
-        msg: "",
-    };
+/* 
+-신규회원 가입처리 RESTFul API 라우팅 메소드 
+-http://localhost:3000/api/member/entry
+*/
+router.post('/entry', async(req, res, next)=> {
+  var apiResult = {
+    code:400,
+    data:null,
+    msg:""
+  };
 
-    try {
-            var email = req.body.email
-            var password = req.body.password
-            var name = req.body.name
-            var telephone = req.body.telephone
+  try{
 
-        // 중복체크
-        var regEmail = await db.Member.findOne({ where: { email:email } });
+    var email = req.body.email;
+    var password = req.body.password;
+    var name = req.body.name;
+    var telephone = req.body.telephone;
 
-        if(regEmail != null) {
 
-            apiResult.code = 500;
-            apiResult.data = null;
-            apiResult.msg = "ExistDoubleEmail";
+    //회원가입 로직추가: 메일주소 중복체크
+    var existMember = await db.Member.findOne({where:{email}});
 
-        } else {
-            
-            // 단방향 암호화
-            var encryptedPassword = await bcrypt.hash(password,6);
-            // 양방향 암호화
-            var encryptTelephone = AES.encrypt(telephone, process.env.MYSQL_AES_KEY);
+    if(existMember != null){
+      
+      apiResult.code = 500;
+      apiResult.data = null;
+      apiResult.msg = "ExistDoubleEmail";
 
-            var member = {
-                email,
-                member_password: encryptedPassword,
-                name,
-                telephone: encryptTelephone,
-                profile_img_path:"",
-                entry_type_code: 1,
-                use_state_code: 1,
-                reg_date: Date.now(),
-                reg_member_id: 1,
-                edit_date: Date.now()
-            };
+    }else{
 
-            const registedMember = await db.Member.create(member);
+      //단방향 암호화 해시 알고리즘 적용 사용자 암호 암호화 적용  
+      var encryptedPassword = await bcrypt.hash(password,12);
 
-            registedMember.member_password = "";
-            var decryptTelephone = AES.decrypt(encryptTelephone, process.env.MYSQL_AES_KEY)
-            registedMember.telephone = decryptTelephone;
+      var encryptedTelephone = AES.encrypt(telephone, process.env.MYSQL_AES_KEY);
 
-            apiResult.code = 200;
-            apiResult.data = registedMember;
-            apiResult.msg = "ok";
-        }
-    }catch(error) {
-        console.log("서버에러발생-/api/member/entry", error);
-        apiResult.code = 500;
-        apiResult.data = null;
-        apiResult.msg = "Failed";
+      var member = {
+        email,
+        member_password:encryptedPassword,
+        name,
+        profile_img_path:"",
+        telephone:encryptedTelephone,
+        entry_type_code:1,
+        use_state_code:1,
+        reg_date:Date.now(),
+        reg_member_id:0
+      };
+
+      var registedMember = await db.Member.create(member);
+
+      //불필요한 중요 데이터 속성값은 지우고 프론트엔드에 전달 
+      registedMember.member_password ="";
+      registedMember.telephone = AES.decrypt(registedMember.telephone, process.env.MYSQL_AES_KEY);
+
+      apiResult.code = 200;
+      apiResult.data = registedMember;
+      apiResult.msg = "Ok";
     }
-    res.json(apiResult);
-})
-//login
-router.post('/login', async (req, res, next) => {
-    var apiResult = {
-        code: 400,
-        data: null,
-        msg: "",
-    };
 
-    try {
-        var { email, password } = req.body;
+  }catch(err){
+    console.log("서버에러발생-/api/member/entry:",err.message);
+    apiResult.code = 500;
+    apiResult.data = null;
+    apiResult.msg = "Failed";
+  }
 
-        // 이메일 찾기
-        var member = await db.Member.findOne({ where: { email: email } });
-        var resultMsg = "";
-
-        // member 이메일이 null 값일때
-        if (member == null) {
-            resultMsg = "NotExistEmail";
-            apiResult.code = 400;
-            apiResult.data = null;
-            apiResult.msg = resultMsg;
-        } else {
-            // 패스워드는 단방향 암호화라서 복호화 불가능. 동일암호 일치여부 체크
-            var comparePassword = await bcrypt.compare(password, member.member_password);
-
-            if (comparePassword) {
-                resultMsg = "Ok";
-
-                member.member_password = "";
-                member.telephone = AES.decrypt(member.telephone, process.env.MYSQL_AES_KEY);
-
-                var memberToken = {
-                    // 프라이머리키는 필수
-                    member_id: member.member_id,
-                    email: member.email,
-                    name: member.name,
-                    telephone: member.telephone,
-                };
-
-                var token = await jwt.sign(memberToken, process.env.JWT_SECRET, { expiresIn: '24h', issuer: 'welcome' });
-
-                apiResult.code = 200;
-                // 토큰데이터 넘기기
-                apiResult.data = token;
-                apiResult.msg = resultMsg;
-            } else {
-                resultMsg = "NotCorrectword";
-                apiResult.code = 400;
-                apiResult.data = null;
-                apiResult.msg = resultMsg;
-            }
-        }
-    } catch (error) {
-        console.log("서버에러발생-/api/member/login", error.message);  
-        apiResult.code = 500;
-        apiResult.data = null;
-        apiResult.msg = error.message;
-    }
-    res.json(apiResult);
+  res.json(apiResult);
 });
-// 로그인후 개인정보 프로필 정보조회 라우팅 메소드.
-router.get('/profile',async(req,res,next)=>{
-    var apiResult = {
-        code: 400,
-        data: null,
-        msg: "",
-    };
-    try{
-        //step1 . 현재 프로필 api를 호출하는 사용자 요청의 httpHeader 영역에서 authorization내 jwt토큰값 존재여부확인
-        const token = req.headers.authorization.split('Bearer ')[1];
-        console.log("req헤더에 저장된 jwt값 추출하기",token)
-    }catch(err){
-        console.log("프로필정보 로딩 오류", error.message);  
-        apiResult.code = 500;
+
+
+/* 
+-회원 로그인 처리 RESTFul API 라우팅 메소드 
+-http://localhost:3000/api/member/login
+*/
+router.post('/login', async(req, res, next)=> {
+  var apiResult = {
+    code:400,
+    data:null,
+    msg:""
+  };
+
+  try{
+    var email = req.body.email;
+    var password = req.body.password;
+
+    //step1:로그인(인증)-동일메일주소 여부 체크
+    var member = await db.Member.findOne({where:{email:email}});
+    var resultMsg = "";
+
+    if(member == null){
+      resultMsg="NotExistEmail";
+      apiResult.code = 400;
+      apiResult.data = null;
+      apiResult.msg = resultMsg;
+    }else{
+
+      //step2: 단방향암호화 기반 동일암호 일치여부 체크 
+      //단방향 암호화 해시 알고리즘 암호 체크  
+      var compareResult = await bcrypt.compare(password,member.member_password);
+
+      if(compareResult){
+        resultMsg="Ok";
+
+        member.member_password ="";
+        member.telephone = AES.decrypt(member.telephone, process.env.MYSQL_AES_KEY);
+
+        //step3: 인증된 사용자의 기본정보 JWT토큰 생성 발급
+        //step3.1: JWT토큰에 담을 사용자 정보 생성
+        //JWT인증 사용자정보 토큰 값 구조 정의 및 데이터 세팅 
+        var memberTokenData = {
+          member_id: member.member_id,
+          email:member.email,
+          name:member.name,
+          profile_img_path:member.profile_img_path,
+          telephone:member.telephone,
+          etc:"기타정보",
+        };
+
+        var token = await jwt.sign(memberTokenData,process.env.JWT_SECRET,{expiresIn:'24h',issuer:'msoftware'});
+
+        apiResult.code = 200;
+        apiResult.data = token;
+        apiResult.msg = resultMsg;
+      }else{
+        resultMsg="NotCorrectPassword";
+
+        apiResult.code = 400;
         apiResult.data = null;
-        apiResult.msg = error.message;
+        apiResult.msg = resultMsg;
+      }
     }
-    res.json()
-})
+  }catch(err){
+    console.log("서버에러발생-/api/member/entry:",err.message);
+    apiResult.code = 500;
+    apiResult.data = null;
+    apiResult.msg = "Failed";
+  }
+  res.json(apiResult);
+});
+
+
+/* 
+-회원 암호 찾기 RESTFul API 라우팅 메소드 
+-http://localhost:3000/api/member/find
+*/
+router.post('/find', async(req, res, next)=> {
+  res.json({});
+});
+
+
+/* 
+-로그인한 현재 사용자의 회원 기본정보 조회 API  
+-http://localhost:3000/api/member/profile
+-로그인시 발급한 JWT토큰은 HTTP Header영역에 포함되어 전달된다.
+*/
+router.get('/profile',tokenAuthChecking,async(req,res,next)=>{
+
+  var apiResult = {
+    code:400,
+    data:null,
+    msg:""
+  };
+
+
+  try{
+
+    //step1: 웹브라우저 헤더에서 사용자 JWT Bearer 인증토큰값을 추출한다.
+    //req.headers.authorization = "Bearer FHKDFJDKJFKDJFKSJFSK"
+    var token = req.headers.authorization.split('Bearer ')[1];
+    var tokenJsonData = await jwt.verify(token,process.env.JWT_SECRET);
+
+    //웹브라우저에서 전달된 JWT토큰문자열에서 필요한 로그인 사용자 정보를 추출합니다.
+    var loginMemberId = tokenJsonData.member_id;
+
+    var dbMember = await db.Member.findOne({
+      where:{member_id:loginMemberId},
+      attributes:['email','name','profile_img_path','telephone','birth_date']
+    });
+
+    dbMember.telephone = AES.decrypt(dbMember.telephone, process.env.MYSQL_AES_KEY);
+
+    apiResult.code = 200;
+    apiResult.data = dbMember;
+    apiResult.msg = "Ok";
+
+  }catch(err){
+    apiResult.code = 500;
+    apiResult.data = null;
+    apiResult.msg = "Failed";
+  }
+
+
+  res.json(apiResult);
+
+});
+
+
+/* 
+-전체 회원 목록 조회 API  
+-http://localhost:3000/api/member/all
+-로그인시 발급한 JWT토큰은 HTTP Header영역에 포함되어 전달된다.
+*/
+router.get('/all',tokenAuthChecking,async(req,res)=>{
+
+  var apiResult = {
+    code:400,
+    data:null,
+    msg:""
+  };
+
+  try{
+
+    var members = await db.Member.findAll({
+      attributes:['member_id','email','name','profile_img_path','telephone'],
+      where:{use_state_code:constants.USE_STATE_CODE_USED}
+    });
+
+    apiResult.code = 200;
+    apiResult.data = members;
+    apiResult.msg = "Ok";
+
+  }catch(err){
+    apiResult.code = 500;
+    apiResult.data = null;
+    apiResult.msg = "Failed";
+  }
+
+  res.json(apiResult);
+});
+
+
+
+
 module.exports = router;
