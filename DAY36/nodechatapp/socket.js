@@ -27,7 +27,7 @@ module.exports =(server)=>{
 
         //현재 연결되는 사용자들 기반을 사용할 전역변수 정의 사용
         const socketId = socket.id; //현재 연결 사용자의 고유한 ConnectionId값 조회
-       
+        
         //접속 클라이언트 IP주소
         const userIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress;//사용자IP
 

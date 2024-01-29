@@ -1413,39 +1413,6 @@
 
 			console.log("현재 사용자  정보 조회 :",currentUser);
 
-			$("#settings-tab").click(function(){
-
-//웹브라우저 로컬스토리지에 저장된 사용자인증 JWT토큰정보 추출하기
-var loginUserToken = localStorage.getItem("userauthtoken");
-
-$.ajax({
-	type:'GET',
-	url:'/api/member/profile',
-	headers:{
-		Authorization:`Bearer ${loginUserToken}`
-	},
-	dataType:"json",
-	success:function(result){
-		console.log("현재 사용자 정보 호출결과: ",result);
-
-		if(result.code == 200){
-			$("#email").val(result.data.email);
-			$("#member_name").val(result.data.name);
-			$("#telephone").val(result.data.telephone);
-
-			$("#profile_img").attr("src",result.data.profile_img_path);
-
-		}else{
-			if(result.code == 400){
-				alert(result.code);
-			}
-		}
-	},
-	error:function(err){
-		console.log("백엔드 API호출 에러발생:",err);
-	}
-});
-});
 			//원격지 SOCKET서버에 연결하고 socket 클라이언트 객체 생성하기 
 			var socket = io.connect('http://localhost:3000/');
 

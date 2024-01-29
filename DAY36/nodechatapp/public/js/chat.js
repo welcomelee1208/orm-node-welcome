@@ -1,7 +1,3 @@
-
-
-
-
 //주소록 메뉴 클릭시 전체 회원정보 조회 바인딩
 $("#contacts-tab").click(function(){
 
