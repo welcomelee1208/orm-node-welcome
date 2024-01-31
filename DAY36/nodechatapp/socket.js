@@ -1,4 +1,6 @@
 const SocketIO = require("socket.io");
+//socket.io-redis참조
+var redis = require("socket.io-redis");
 
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
@@ -17,6 +19,13 @@ module.exports =(server)=>{
             methods: ["GET", "POST"],
         },
     });
+            //Redis Backplain 연결설정
+io.adapter(
+    redis({
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    })
+    );
 
 
     io.on("connection",async(socket)=>{

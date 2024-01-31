@@ -49,32 +49,32 @@
 					<!-- Tabs Nav Start -->
 					<div class="nav" role="tablist" aria-orientation="vertical">
 						<a href="#" class="logo">
-							<img src="img/logo.svg" alt="Quick Chat">
+							<img src="/img/logo.svg" alt="Quick Chat">
 						</a>
 						<a class="nav-link active" id="chats-tab" data-toggle="pill" href="#tab-chats" role="tab" aria-controls="tab-chats" aria-selected="true">
-							<img src="img/home.svg" alt="Chats">
+							<img src="/img/home.svg" alt="Chats">
 							<span class="nav-link-text">Chats</span>
 						</a>
 						<a class="nav-link" id="profile-tab" data-toggle="pill" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false">
-							<img src="img/profile1.svg" alt="Profile">
+							<img src="/img/profile1.svg" alt="Profile">
 							<span class="nav-link-text">Profile</span>
 						</a>
 
 						<!-- 회원주소록 목록 보기 클릭  -->
 						<a class="nav-link" id="contacts-tab" data-toggle="pill" href="#tab-contacts" role="tab" aria-controls="tab-contacts" aria-selected="false">
-							<img src="img/contacts1.svg" alt="Contacts">
+							<img src="/img/contacts1.svg" alt="Contacts">
 							<span class="nav-link-text">Contacts</span>
 						</a>
 						
 						
 						<a class="nav-link" id="groups-tab" data-toggle="pill" href="#tab-groups" role="tab" aria-controls="tab-groups" aria-selected="false">
-							<img src="img/groups.svg" alt="Groups">
+							<img src="/img/groups.svg" alt="Groups">
 							<span class="nav-link-text">Groups</span>
 						</a>
 
 						<!-- 개인환경설정하기 아이콘  -->
 						<a class="nav-link" id="settings-tab" data-toggle="pill" href="#tab-settings" role="tab" aria-controls="tab-settings" aria-selected="false">
-							<img src="img/settings.svg" alt="Settings">
+							<img src="/img/settings.svg" alt="Settings">
 							<span class="nav-link-text">Settings</span>
 						</a>
 
@@ -122,10 +122,10 @@
 												<!-- <h6>21 mins ago</h6> -->
 												<div class="video-chat-icons">
 													<div class="video-chat">
-														<img src="img/icon-video-call.svg" alt="Video Call">
+														<img src="/img/icon-video-call.svg" alt="Video Call">
 													</div>
 													<button type="button" class="recent-delete">
-														<img src="img/icon-trash.svg" alt="Delete">
+														<img src="/img/icon-trash.svg" alt="Delete">
 													</button>
 												</div>
 											</a>
@@ -140,10 +140,10 @@
 												<!-- <h6>29 mins ago</h6> -->
 												<div class="video-chat-icons">
 													<div class="video-chat">
-														<img src="img/icon-chat.svg" alt="Video Call">
+														<img src="/img/icon-chat.svg" alt="Video Call">
 													</div>
 													<button type="button" class="recent-delete">
-														<img src="img/icon-trash.svg" alt="Delete">
+														<img src="/img/icon-trash.svg" alt="Delete">
 													</button>
 												</div>
 											</a>
@@ -152,16 +152,16 @@
 											<a href="#">
 												<div class="user-avatar">
 													<span class="status busy"></span>
-													<img src="img/user24.png" alt="Avatar" />
+													<img src="/img/user24.png" alt="Avatar" />
 												</div>
 												<h5>Alice Horbachev</h5>
 												<!-- <h6>37 mins ago</h6> -->
 												<div class="video-chat-icons">
 													<div class="video-chat">
-														<img src="img/icon-chat.svg" alt="Video Call">
+														<img src="/img/icon-chat.svg" alt="Video Call">
 													</div>
 													<button type="button" class="recent-delete">
-														<img src="img/icon-trash.svg" alt="Delete">
+														<img src="/img/icon-trash.svg" alt="Delete">
 													</button>
 												</div>
 											</a>
@@ -302,7 +302,7 @@
 												<a href="#">
 													<div class="chat-avatar">
 														<span class="status offline"></span>
-														<img src="img/user16.png" alt="Avatar" />
+														<img src="/img/user16.png" alt="Avatar" />
 													</div>
 													<div class="users-list-body">
 														<div class="chat-msg">
@@ -320,7 +320,7 @@
 												<a href="#">
 													<div class="chat-avatar">
 														<span class="status offline"></span>
-														<img src="img/user24.png" alt="Avatar" />
+														<img src="/img/user24.png" alt="Avatar" />
 													</div>
 													<div class="users-list-body">
 														<div class="chat-msg">
@@ -354,7 +354,7 @@
 												<a href="#">
 												<div class="chat-avatar">
 														<span class="status away"></span>
-														<img src="img/user12.png" alt="Avatar" />
+														<img src="/img/user12.png" alt="Avatar" />
 													</div>
 													<div class="users-list-body">
 														<div class="chat-msg">
@@ -372,7 +372,7 @@
 												<a href="#">
 													<div class="chat-avatar">
 														<span class="status away"></span>
-														<img src="img/user15.png" alt="Avatar" />
+														<img src="/img/user15.png" alt="Avatar" />
 													</div>
 													<div class="users-list-body">
 														<div class="chat-msg">
@@ -1415,7 +1415,7 @@
 
 		
 			//원격지 SOCKET서버에 연결하고 socket 클라이언트 객체 생성하기 
-			var socket = io.connect('http://localhost:3000/');
+			var socket = io.connect('https://test06.growlearn.co.kr/');
 
 			//현재 접속중인 채널정보 
 			var currentChannel = {};

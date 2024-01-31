@@ -19,10 +19,9 @@ const redis = require("redis");
 let RedisStore = require("connect-redis")(session);
 //세션 저장을위한 레디스 서버연결정보 설정하기
 let redisClient = redis.createClient({
-  host: "127.0.0.1",
-  port: 6379,
+  host:process.env.REDIS_HOST,
+  port:process.env.REDIS_PORT,
   db: 0,
-  password: "test12345",
   });
 
 //패스포트 패키지 참조
@@ -138,4 +137,53 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+app.set('port', process.env.PORT || 3001);
+//노드앱의 서버 객체 생성
+var server = app.listen(app.get('port'),function(){
+
+})
+
+
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+
